@@ -1,0 +1,2048 @@
+{
+  "Barisal": {
+    "1": {
+      "rainfall": 8.89,
+      "relative_humidity": 78.28,
+      "cloud_coverage": 1.04
+    },
+    "2": {
+      "rainfall": 19.48,
+      "relative_humidity": 75.4,
+      "cloud_coverage": 1.48
+    },
+    "3": {
+      "rainfall": 46.0,
+      "relative_humidity": 73.68,
+      "cloud_coverage": 2.39
+    },
+    "4": {
+      "rainfall": 95.22,
+      "relative_humidity": 78.4,
+      "cloud_coverage": 3.74
+    },
+    "5": {
+      "rainfall": 207.72,
+      "relative_humidity": 81.75,
+      "cloud_coverage": 4.72
+    },
+    "6": {
+      "rainfall": 407.23,
+      "relative_humidity": 87.31,
+      "cloud_coverage": 6.18
+    },
+    "7": {
+      "rainfall": 418.05,
+      "relative_humidity": 89.0,
+      "cloud_coverage": 6.5
+    },
+    "8": {
+      "rainfall": 359.23,
+      "relative_humidity": 88.74,
+      "cloud_coverage": 6.37
+    },
+    "9": {
+      "rainfall": 301.37,
+      "relative_humidity": 87.86,
+      "cloud_coverage": 5.62
+    },
+    "10": {
+      "rainfall": 190.51,
+      "relative_humidity": 85.6,
+      "cloud_coverage": 3.64
+    },
+    "11": {
+      "rainfall": 43.17,
+      "relative_humidity": 81.23,
+      "cloud_coverage": 1.88
+    },
+    "12": {
+      "rainfall": 8.25,
+      "relative_humidity": 78.45,
+      "cloud_coverage": 1.04
+    }
+  },
+  "Bhola": {
+    "1": {
+      "rainfall": 6.98,
+      "relative_humidity": 80.04,
+      "cloud_coverage": 1.11
+    },
+    "2": {
+      "rainfall": 22.44,
+      "relative_humidity": 77.06,
+      "cloud_coverage": 1.5
+    },
+    "3": {
+      "rainfall": 51.12,
+      "relative_humidity": 77.06,
+      "cloud_coverage": 2.2
+    },
+    "4": {
+      "rainfall": 104.62,
+      "relative_humidity": 80.94,
+      "cloud_coverage": 3.32
+    },
+    "5": {
+      "rainfall": 237.04,
+      "relative_humidity": 83.85,
+      "cloud_coverage": 4.27
+    },
+    "6": {
+      "rainfall": 426.46,
+      "relative_humidity": 88.45,
+      "cloud_coverage": 5.85
+    },
+    "7": {
+      "rainfall": 454.67,
+      "relative_humidity": 89.96,
+      "cloud_coverage": 6.24
+    },
+    "8": {
+      "rainfall": 389.88,
+      "relative_humidity": 89.06,
+      "cloud_coverage": 6.06
+    },
+    "9": {
+      "rainfall": 296.48,
+      "relative_humidity": 88.53,
+      "cloud_coverage": 5.28
+    },
+    "10": {
+      "rainfall": 181.4,
+      "relative_humidity": 86.23,
+      "cloud_coverage": 3.27
+    },
+    "11": {
+      "rainfall": 43.12,
+      "relative_humidity": 82.6,
+      "cloud_coverage": 1.82
+    },
+    "12": {
+      "rainfall": 8.56,
+      "relative_humidity": 81.43,
+      "cloud_coverage": 1.05
+    }
+  },
+  "Bogra": {
+    "1": {
+      "rainfall": 8.14,
+      "relative_humidity": 74.22,
+      "cloud_coverage": 1.13
+    },
+    "2": {
+      "rainfall": 11.14,
+      "relative_humidity": 66.53,
+      "cloud_coverage": 1.27
+    },
+    "3": {
+      "rainfall": 25.31,
+      "relative_humidity": 61.81,
+      "cloud_coverage": 1.67
+    },
+    "4": {
+      "rainfall": 69.14,
+      "relative_humidity": 66.2,
+      "cloud_coverage": 2.79
+    },
+    "5": {
+      "rainfall": 179.89,
+      "relative_humidity": 76.86,
+      "cloud_coverage": 4.21
+    },
+    "6": {
+      "rainfall": 315.58,
+      "relative_humidity": 84.44,
+      "cloud_coverage": 5.72
+    },
+    "7": {
+      "rainfall": 363.72,
+      "relative_humidity": 86.19,
+      "cloud_coverage": 6.13
+    },
+    "8": {
+      "rainfall": 307.02,
+      "relative_humidity": 85.67,
+      "cloud_coverage": 5.88
+    },
+    "9": {
+      "rainfall": 269.05,
+      "relative_humidity": 85.58,
+      "cloud_coverage": 5.26
+    },
+    "10": {
+      "rainfall": 145.98,
+      "relative_humidity": 82.22,
+      "cloud_coverage": 3.18
+    },
+    "11": {
+      "rainfall": 12.89,
+      "relative_humidity": 76.61,
+      "cloud_coverage": 1.5
+    },
+    "12": {
+      "rainfall": 6.39,
+      "relative_humidity": 75.91,
+      "cloud_coverage": 0.97
+    }
+  },
+  "Chandpur": {
+    "1": {
+      "rainfall": 5.62,
+      "relative_humidity": 76.5,
+      "cloud_coverage": 0.88
+    },
+    "2": {
+      "rainfall": 15.35,
+      "relative_humidity": 72.46,
+      "cloud_coverage": 1.16
+    },
+    "3": {
+      "rainfall": 60.19,
+      "relative_humidity": 71.92,
+      "cloud_coverage": 1.91
+    },
+    "4": {
+      "rainfall": 133.27,
+      "relative_humidity": 76.35,
+      "cloud_coverage": 2.9
+    },
+    "5": {
+      "rainfall": 260.56,
+      "relative_humidity": 79.56,
+      "cloud_coverage": 3.86
+    },
+    "6": {
+      "rainfall": 355.5,
+      "relative_humidity": 84.96,
+      "cloud_coverage": 5.07
+    },
+    "7": {
+      "rainfall": 423.88,
+      "relative_humidity": 86.46,
+      "cloud_coverage": 5.55
+    },
+    "8": {
+      "rainfall": 335.94,
+      "relative_humidity": 85.67,
+      "cloud_coverage": 5.47
+    },
+    "9": {
+      "rainfall": 257.38,
+      "relative_humidity": 85.42,
+      "cloud_coverage": 4.78
+    },
+    "10": {
+      "rainfall": 140.19,
+      "relative_humidity": 82.1,
+      "cloud_coverage": 2.96
+    },
+    "11": {
+      "rainfall": 32.12,
+      "relative_humidity": 78.33,
+      "cloud_coverage": 1.53
+    },
+    "12": {
+      "rainfall": 5.56,
+      "relative_humidity": 77.75,
+      "cloud_coverage": 0.91
+    }
+  },
+  "Chittagong (City-Ambagan)": {
+    "1": {
+      "rainfall": 0.0,
+      "relative_humidity": 70.33,
+      "cloud_coverage": 0.7
+    },
+    "2": {
+      "rainfall": 0.33,
+      "relative_humidity": 62.33,
+      "cloud_coverage": 0.98
+    },
+    "3": {
+      "rainfall": 23.67,
+      "relative_humidity": 72.33,
+      "cloud_coverage": 2.15
+    },
+    "4": {
+      "rainfall": 135.33,
+      "relative_humidity": 77.67,
+      "cloud_coverage": 3.32
+    },
+    "5": {
+      "rainfall": 312.67,
+      "relative_humidity": 80.67,
+      "cloud_coverage": 4.88
+    },
+    "6": {
+      "rainfall": 742.0,
+      "relative_humidity": 85.67,
+      "cloud_coverage": 5.98
+    },
+    "7": {
+      "rainfall": 555.33,
+      "relative_humidity": 85.67,
+      "cloud_coverage": 6.32
+    },
+    "8": {
+      "rainfall": 430.33,
+      "relative_humidity": 86.0,
+      "cloud_coverage": 6.52
+    },
+    "9": {
+      "rainfall": 422.0,
+      "relative_humidity": 85.0,
+      "cloud_coverage": 5.8
+    },
+    "10": {
+      "rainfall": 303.92,
+      "relative_humidity": 84.67,
+      "cloud_coverage": 3.65
+    },
+    "11": {
+      "rainfall": 1.0,
+      "relative_humidity": 76.67,
+      "cloud_coverage": 1.95
+    },
+    "12": {
+      "rainfall": 0.0,
+      "relative_humidity": 79.67,
+      "cloud_coverage": 1.0
+    }
+  },
+  "Chittagong (IAP-Patenga)": {
+    "1": {
+      "rainfall": 5.72,
+      "relative_humidity": 72.91,
+      "cloud_coverage": 1.07
+    },
+    "2": {
+      "rainfall": 16.6,
+      "relative_humidity": 70.71,
+      "cloud_coverage": 1.34
+    },
+    "3": {
+      "rainfall": 51.97,
+      "relative_humidity": 73.75,
+      "cloud_coverage": 2.18
+    },
+    "4": {
+      "rainfall": 113.94,
+      "relative_humidity": 77.69,
+      "cloud_coverage": 3.38
+    },
+    "5": {
+      "rainfall": 283.35,
+      "relative_humidity": 80.15,
+      "cloud_coverage": 4.43
+    },
+    "6": {
+      "rainfall": 617.06,
+      "relative_humidity": 84.89,
+      "cloud_coverage": 6.14
+    },
+    "7": {
+      "rainfall": 704.35,
+      "relative_humidity": 86.57,
+      "cloud_coverage": 6.47
+    },
+    "8": {
+      "rainfall": 523.98,
+      "relative_humidity": 86.25,
+      "cloud_coverage": 6.33
+    },
+    "9": {
+      "rainfall": 287.66,
+      "relative_humidity": 84.57,
+      "cloud_coverage": 5.72
+    },
+    "10": {
+      "rainfall": 220.26,
+      "relative_humidity": 82.71,
+      "cloud_coverage": 3.98
+    },
+    "11": {
+      "rainfall": 52.05,
+      "relative_humidity": 78.08,
+      "cloud_coverage": 2.21
+    },
+    "12": {
+      "rainfall": 9.2,
+      "relative_humidity": 75.88,
+      "cloud_coverage": 1.21
+    }
+  },
+  "Comilla": {
+    "1": {
+      "rainfall": 6.92,
+      "relative_humidity": 75.39,
+      "cloud_coverage": 0.98
+    },
+    "2": {
+      "rainfall": 21.17,
+      "relative_humidity": 72.08,
+      "cloud_coverage": 1.48
+    },
+    "3": {
+      "rainfall": 54.61,
+      "relative_humidity": 74.08,
+      "cloud_coverage": 2.33
+    },
+    "4": {
+      "rainfall": 141.86,
+      "relative_humidity": 78.83,
+      "cloud_coverage": 3.48
+    },
+    "5": {
+      "rainfall": 292.12,
+      "relative_humidity": 81.64,
+      "cloud_coverage": 4.37
+    },
+    "6": {
+      "rainfall": 423.74,
+      "relative_humidity": 86.26,
+      "cloud_coverage": 5.76
+    },
+    "7": {
+      "rainfall": 443.56,
+      "relative_humidity": 87.18,
+      "cloud_coverage": 6.07
+    },
+    "8": {
+      "rainfall": 350.44,
+      "relative_humidity": 86.58,
+      "cloud_coverage": 5.85
+    },
+    "9": {
+      "rainfall": 268.86,
+      "relative_humidity": 85.94,
+      "cloud_coverage": 5.18
+    },
+    "10": {
+      "rainfall": 178.15,
+      "relative_humidity": 83.56,
+      "cloud_coverage": 3.38
+    },
+    "11": {
+      "rainfall": 40.71,
+      "relative_humidity": 79.67,
+      "cloud_coverage": 1.72
+    },
+    "12": {
+      "rainfall": 6.92,
+      "relative_humidity": 77.79,
+      "cloud_coverage": 0.93
+    }
+  },
+  "Cox's Bazar": {
+    "1": {
+      "rainfall": 6.39,
+      "relative_humidity": 71.79,
+      "cloud_coverage": 0.88
+    },
+    "2": {
+      "rainfall": 14.73,
+      "relative_humidity": 71.35,
+      "cloud_coverage": 1.08
+    },
+    "3": {
+      "rainfall": 26.47,
+      "relative_humidity": 75.15,
+      "cloud_coverage": 1.76
+    },
+    "4": {
+      "rainfall": 87.35,
+      "relative_humidity": 78.02,
+      "cloud_coverage": 3.04
+    },
+    "5": {
+      "rainfall": 307.86,
+      "relative_humidity": 80.41,
+      "cloud_coverage": 4.4
+    },
+    "6": {
+      "rainfall": 815.74,
+      "relative_humidity": 87.45,
+      "cloud_coverage": 6.36
+    },
+    "7": {
+      "rainfall": 961.95,
+      "relative_humidity": 89.2,
+      "cloud_coverage": 6.72
+    },
+    "8": {
+      "rainfall": 708.2,
+      "relative_humidity": 88.68,
+      "cloud_coverage": 6.59
+    },
+    "9": {
+      "rainfall": 377.7,
+      "relative_humidity": 86.38,
+      "cloud_coverage": 5.77
+    },
+    "10": {
+      "rainfall": 252.83,
+      "relative_humidity": 82.62,
+      "cloud_coverage": 3.83
+    },
+    "11": {
+      "rainfall": 70.29,
+      "relative_humidity": 77.02,
+      "cloud_coverage": 2.09
+    },
+    "12": {
+      "rainfall": 11.32,
+      "relative_humidity": 74.18,
+      "cloud_coverage": 1.19
+    }
+  },
+  "Dhaka": {
+    "1": {
+      "rainfall": 7.02,
+      "relative_humidity": 69.77,
+      "cloud_coverage": 1.21
+    },
+    "2": {
+      "rainfall": 19.98,
+      "relative_humidity": 62.98,
+      "cloud_coverage": 1.59
+    },
+    "3": {
+      "rainfall": 55.49,
+      "relative_humidity": 61.44,
+      "cloud_coverage": 2.38
+    },
+    "4": {
+      "rainfall": 128.03,
+      "relative_humidity": 70.44,
+      "cloud_coverage": 3.63
+    },
+    "5": {
+      "rainfall": 275.49,
+      "relative_humidity": 77.46,
+      "cloud_coverage": 4.85
+    },
+    "6": {
+      "rainfall": 363.0,
+      "relative_humidity": 83.87,
+      "cloud_coverage": 6.12
+    },
+    "7": {
+      "rainfall": 379.11,
+      "relative_humidity": 84.82,
+      "cloud_coverage": 6.46
+    },
+    "8": {
+      "rainfall": 314.84,
+      "relative_humidity": 83.95,
+      "cloud_coverage": 6.28
+    },
+    "9": {
+      "rainfall": 288.33,
+      "relative_humidity": 83.79,
+      "cloud_coverage": 5.69
+    },
+    "10": {
+      "rainfall": 169.31,
+      "relative_humidity": 79.57,
+      "cloud_coverage": 3.73
+    },
+    "11": {
+      "rainfall": 29.0,
+      "relative_humidity": 73.56,
+      "cloud_coverage": 2.01
+    },
+    "12": {
+      "rainfall": 9.7,
+      "relative_humidity": 72.9,
+      "cloud_coverage": 1.25
+    }
+  },
+  "Dinajpur": {
+    "1": {
+      "rainfall": 9.11,
+      "relative_humidity": 75.32,
+      "cloud_coverage": 1.09
+    },
+    "2": {
+      "rainfall": 6.76,
+      "relative_humidity": 66.39,
+      "cloud_coverage": 0.99
+    },
+    "3": {
+      "rainfall": 14.65,
+      "relative_humidity": 57.62,
+      "cloud_coverage": 1.28
+    },
+    "4": {
+      "rainfall": 58.86,
+      "relative_humidity": 60.94,
+      "cloud_coverage": 2.28
+    },
+    "5": {
+      "rainfall": 182.32,
+      "relative_humidity": 73.5,
+      "cloud_coverage": 3.79
+    },
+    "6": {
+      "rainfall": 359.24,
+      "relative_humidity": 82.38,
+      "cloud_coverage": 5.46
+    },
+    "7": {
+      "rainfall": 428.39,
+      "relative_humidity": 85.24,
+      "cloud_coverage": 5.98
+    },
+    "8": {
+      "rainfall": 342.15,
+      "relative_humidity": 84.61,
+      "cloud_coverage": 5.63
+    },
+    "9": {
+      "rainfall": 301.06,
+      "relative_humidity": 84.65,
+      "cloud_coverage": 4.76
+    },
+    "10": {
+      "rainfall": 135.94,
+      "relative_humidity": 81.12,
+      "cloud_coverage": 2.51
+    },
+    "11": {
+      "rainfall": 6.85,
+      "relative_humidity": 76.21,
+      "cloud_coverage": 1.02
+    },
+    "12": {
+      "rainfall": 5.29,
+      "relative_humidity": 76.53,
+      "cloud_coverage": 0.68
+    }
+  },
+  "Faridpur": {
+    "1": {
+      "rainfall": 7.0,
+      "relative_humidity": 76.5,
+      "cloud_coverage": 1.15
+    },
+    "2": {
+      "rainfall": 20.98,
+      "relative_humidity": 70.44,
+      "cloud_coverage": 1.3
+    },
+    "3": {
+      "rainfall": 40.15,
+      "relative_humidity": 65.85,
+      "cloud_coverage": 2.05
+    },
+    "4": {
+      "rainfall": 125.18,
+      "relative_humidity": 71.15,
+      "cloud_coverage": 3.08
+    },
+    "5": {
+      "rainfall": 230.68,
+      "relative_humidity": 78.77,
+      "cloud_coverage": 4.23
+    },
+    "6": {
+      "rainfall": 347.91,
+      "relative_humidity": 85.7,
+      "cloud_coverage": 5.72
+    },
+    "7": {
+      "rainfall": 350.62,
+      "relative_humidity": 86.97,
+      "cloud_coverage": 6.09
+    },
+    "8": {
+      "rainfall": 297.85,
+      "relative_humidity": 85.74,
+      "cloud_coverage": 5.91
+    },
+    "9": {
+      "rainfall": 243.36,
+      "relative_humidity": 85.32,
+      "cloud_coverage": 5.38
+    },
+    "10": {
+      "rainfall": 169.0,
+      "relative_humidity": 82.06,
+      "cloud_coverage": 3.42
+    },
+    "11": {
+      "rainfall": 30.86,
+      "relative_humidity": 78.17,
+      "cloud_coverage": 1.62
+    },
+    "12": {
+      "rainfall": 6.77,
+      "relative_humidity": 77.74,
+      "cloud_coverage": 0.9
+    }
+  },
+  "Feni": {
+    "1": {
+      "rainfall": 6.0,
+      "relative_humidity": 74.97,
+      "cloud_coverage": 0.97
+    },
+    "2": {
+      "rainfall": 26.41,
+      "relative_humidity": 71.2,
+      "cloud_coverage": 1.58
+    },
+    "3": {
+      "rainfall": 62.22,
+      "relative_humidity": 73.12,
+      "cloud_coverage": 2.59
+    },
+    "4": {
+      "rainfall": 158.51,
+      "relative_humidity": 78.15,
+      "cloud_coverage": 3.93
+    },
+    "5": {
+      "rainfall": 367.68,
+      "relative_humidity": 81.38,
+      "cloud_coverage": 4.97
+    },
+    "6": {
+      "rainfall": 524.85,
+      "relative_humidity": 85.22,
+      "cloud_coverage": 6.25
+    },
+    "7": {
+      "rainfall": 710.29,
+      "relative_humidity": 87.22,
+      "cloud_coverage": 6.66
+    },
+    "8": {
+      "rainfall": 512.73,
+      "relative_humidity": 85.95,
+      "cloud_coverage": 6.34
+    },
+    "9": {
+      "rainfall": 342.49,
+      "relative_humidity": 85.55,
+      "cloud_coverage": 5.65
+    },
+    "10": {
+      "rainfall": 212.71,
+      "relative_humidity": 83.78,
+      "cloud_coverage": 3.45
+    },
+    "11": {
+      "rainfall": 45.12,
+      "relative_humidity": 79.07,
+      "cloud_coverage": 1.91
+    },
+    "12": {
+      "rainfall": 9.05,
+      "relative_humidity": 77.0,
+      "cloud_coverage": 0.97
+    }
+  },
+  "Hatiya": {
+    "1": {
+      "rainfall": 3.44,
+      "relative_humidity": 74.44,
+      "cloud_coverage": 0.88
+    },
+    "2": {
+      "rainfall": 15.35,
+      "relative_humidity": 72.77,
+      "cloud_coverage": 1.39
+    },
+    "3": {
+      "rainfall": 47.65,
+      "relative_humidity": 75.58,
+      "cloud_coverage": 2.21
+    },
+    "4": {
+      "rainfall": 114.62,
+      "relative_humidity": 78.98,
+      "cloud_coverage": 3.18
+    },
+    "5": {
+      "rainfall": 295.15,
+      "relative_humidity": 81.92,
+      "cloud_coverage": 4.2
+    },
+    "6": {
+      "rainfall": 595.54,
+      "relative_humidity": 87.08,
+      "cloud_coverage": 5.98
+    },
+    "7": {
+      "rainfall": 724.08,
+      "relative_humidity": 89.06,
+      "cloud_coverage": 6.35
+    },
+    "8": {
+      "rainfall": 596.85,
+      "relative_humidity": 88.33,
+      "cloud_coverage": 6.05
+    },
+    "9": {
+      "rainfall": 440.75,
+      "relative_humidity": 86.6,
+      "cloud_coverage": 5.28
+    },
+    "10": {
+      "rainfall": 241.25,
+      "relative_humidity": 84.17,
+      "cloud_coverage": 3.32
+    },
+    "11": {
+      "rainfall": 51.38,
+      "relative_humidity": 79.69,
+      "cloud_coverage": 2.03
+    },
+    "12": {
+      "rainfall": 11.35,
+      "relative_humidity": 77.58,
+      "cloud_coverage": 1.14
+    }
+  },
+  "Ishurdi": {
+    "1": {
+      "rainfall": 5.87,
+      "relative_humidity": 74.23,
+      "cloud_coverage": 1.15
+    },
+    "2": {
+      "rainfall": 15.04,
+      "relative_humidity": 67.02,
+      "cloud_coverage": 1.35
+    },
+    "3": {
+      "rainfall": 27.33,
+      "relative_humidity": 59.27,
+      "cloud_coverage": 1.8
+    },
+    "4": {
+      "rainfall": 79.71,
+      "relative_humidity": 63.96,
+      "cloud_coverage": 3.02
+    },
+    "5": {
+      "rainfall": 173.48,
+      "relative_humidity": 74.1,
+      "cloud_coverage": 4.29
+    },
+    "6": {
+      "rainfall": 276.88,
+      "relative_humidity": 82.48,
+      "cloud_coverage": 5.77
+    },
+    "7": {
+      "rainfall": 310.63,
+      "relative_humidity": 85.83,
+      "cloud_coverage": 6.29
+    },
+    "8": {
+      "rainfall": 250.04,
+      "relative_humidity": 85.35,
+      "cloud_coverage": 6.05
+    },
+    "9": {
+      "rainfall": 264.9,
+      "relative_humidity": 85.0,
+      "cloud_coverage": 5.53
+    },
+    "10": {
+      "rainfall": 114.27,
+      "relative_humidity": 81.79,
+      "cloud_coverage": 3.34
+    },
+    "11": {
+      "rainfall": 16.02,
+      "relative_humidity": 76.62,
+      "cloud_coverage": 1.68
+    },
+    "12": {
+      "rainfall": 8.27,
+      "relative_humidity": 75.67,
+      "cloud_coverage": 1.08
+    }
+  },
+  "Jessore": {
+    "1": {
+      "rainfall": 11.71,
+      "relative_humidity": 74.53,
+      "cloud_coverage": 1.14
+    },
+    "2": {
+      "rainfall": 20.56,
+      "relative_humidity": 69.56,
+      "cloud_coverage": 1.44
+    },
+    "3": {
+      "rainfall": 41.83,
+      "relative_humidity": 65.98,
+      "cloud_coverage": 2.09
+    },
+    "4": {
+      "rainfall": 69.0,
+      "relative_humidity": 69.41,
+      "cloud_coverage": 3.12
+    },
+    "5": {
+      "rainfall": 153.33,
+      "relative_humidity": 75.77,
+      "cloud_coverage": 4.19
+    },
+    "6": {
+      "rainfall": 297.65,
+      "relative_humidity": 84.03,
+      "cloud_coverage": 5.73
+    },
+    "7": {
+      "rainfall": 330.62,
+      "relative_humidity": 86.95,
+      "cloud_coverage": 6.21
+    },
+    "8": {
+      "rainfall": 280.26,
+      "relative_humidity": 86.95,
+      "cloud_coverage": 6.06
+    },
+    "9": {
+      "rainfall": 234.18,
+      "relative_humidity": 86.21,
+      "cloud_coverage": 5.52
+    },
+    "10": {
+      "rainfall": 137.45,
+      "relative_humidity": 82.56,
+      "cloud_coverage": 3.6
+    },
+    "11": {
+      "rainfall": 25.06,
+      "relative_humidity": 77.62,
+      "cloud_coverage": 1.84
+    },
+    "12": {
+      "rainfall": 9.03,
+      "relative_humidity": 76.53,
+      "cloud_coverage": 0.94
+    }
+  },
+  "Khepupara": {
+    "1": {
+      "rainfall": 9.23,
+      "relative_humidity": 74.05,
+      "cloud_coverage": 0.85
+    },
+    "2": {
+      "rainfall": 19.85,
+      "relative_humidity": 73.22,
+      "cloud_coverage": 1.33
+    },
+    "3": {
+      "rainfall": 41.59,
+      "relative_humidity": 75.2,
+      "cloud_coverage": 2.18
+    },
+    "4": {
+      "rainfall": 80.56,
+      "relative_humidity": 78.25,
+      "cloud_coverage": 3.62
+    },
+    "5": {
+      "rainfall": 258.1,
+      "relative_humidity": 80.72,
+      "cloud_coverage": 4.67
+    },
+    "6": {
+      "rainfall": 475.28,
+      "relative_humidity": 85.9,
+      "cloud_coverage": 6.06
+    },
+    "7": {
+      "rainfall": 616.23,
+      "relative_humidity": 88.15,
+      "cloud_coverage": 6.49
+    },
+    "8": {
+      "rainfall": 467.21,
+      "relative_humidity": 87.72,
+      "cloud_coverage": 6.22
+    },
+    "9": {
+      "rainfall": 370.74,
+      "relative_humidity": 86.92,
+      "cloud_coverage": 5.51
+    },
+    "10": {
+      "rainfall": 271.26,
+      "relative_humidity": 84.68,
+      "cloud_coverage": 3.59
+    },
+    "11": {
+      "rainfall": 49.44,
+      "relative_humidity": 80.18,
+      "cloud_coverage": 1.98
+    },
+    "12": {
+      "rainfall": 6.51,
+      "relative_humidity": 76.58,
+      "cloud_coverage": 0.92
+    }
+  },
+  "Khulna": {
+    "1": {
+      "rainfall": 10.35,
+      "relative_humidity": 75.17,
+      "cloud_coverage": 0.97
+    },
+    "2": {
+      "rainfall": 23.05,
+      "relative_humidity": 71.97,
+      "cloud_coverage": 1.37
+    },
+    "3": {
+      "rainfall": 42.39,
+      "relative_humidity": 70.7,
+      "cloud_coverage": 2.0
+    },
+    "4": {
+      "rainfall": 73.77,
+      "relative_humidity": 74.91,
+      "cloud_coverage": 3.0
+    },
+    "5": {
+      "rainfall": 175.85,
+      "relative_humidity": 78.53,
+      "cloud_coverage": 3.88
+    },
+    "6": {
+      "rainfall": 333.08,
+      "relative_humidity": 85.42,
+      "cloud_coverage": 5.47
+    },
+    "7": {
+      "rainfall": 347.5,
+      "relative_humidity": 88.03,
+      "cloud_coverage": 5.92
+    },
+    "8": {
+      "rainfall": 296.85,
+      "relative_humidity": 87.24,
+      "cloud_coverage": 5.75
+    },
+    "9": {
+      "rainfall": 257.52,
+      "relative_humidity": 86.77,
+      "cloud_coverage": 5.18
+    },
+    "10": {
+      "rainfall": 147.59,
+      "relative_humidity": 83.02,
+      "cloud_coverage": 3.31
+    },
+    "11": {
+      "rainfall": 27.79,
+      "relative_humidity": 77.83,
+      "cloud_coverage": 1.63
+    },
+    "12": {
+      "rainfall": 3.89,
+      "relative_humidity": 76.7,
+      "cloud_coverage": 0.88
+    }
+  },
+  "Kutubdia": {
+    "1": {
+      "rainfall": 6.3,
+      "relative_humidity": 74.66,
+      "cloud_coverage": 0.95
+    },
+    "2": {
+      "rainfall": 19.89,
+      "relative_humidity": 75.63,
+      "cloud_coverage": 1.21
+    },
+    "3": {
+      "rainfall": 44.35,
+      "relative_humidity": 79.54,
+      "cloud_coverage": 1.91
+    },
+    "4": {
+      "rainfall": 69.0,
+      "relative_humidity": 81.2,
+      "cloud_coverage": 2.87
+    },
+    "5": {
+      "rainfall": 276.43,
+      "relative_humidity": 81.69,
+      "cloud_coverage": 4.3
+    },
+    "6": {
+      "rainfall": 620.3,
+      "relative_humidity": 86.23,
+      "cloud_coverage": 5.96
+    },
+    "7": {
+      "rainfall": 745.51,
+      "relative_humidity": 88.4,
+      "cloud_coverage": 6.43
+    },
+    "8": {
+      "rainfall": 492.84,
+      "relative_humidity": 87.29,
+      "cloud_coverage": 6.2
+    },
+    "9": {
+      "rainfall": 306.97,
+      "relative_humidity": 85.94,
+      "cloud_coverage": 5.51
+    },
+    "10": {
+      "rainfall": 197.22,
+      "relative_humidity": 83.37,
+      "cloud_coverage": 3.64
+    },
+    "11": {
+      "rainfall": 51.03,
+      "relative_humidity": 79.2,
+      "cloud_coverage": 1.91
+    },
+    "12": {
+      "rainfall": 7.49,
+      "relative_humidity": 76.2,
+      "cloud_coverage": 1.13
+    }
+  },
+  "Madaripur": {
+    "1": {
+      "rainfall": 7.3,
+      "relative_humidity": 75.19,
+      "cloud_coverage": 1.13
+    },
+    "2": {
+      "rainfall": 25.57,
+      "relative_humidity": 70.92,
+      "cloud_coverage": 1.38
+    },
+    "3": {
+      "rainfall": 45.92,
+      "relative_humidity": 68.3,
+      "cloud_coverage": 2.21
+    },
+    "4": {
+      "rainfall": 117.38,
+      "relative_humidity": 73.86,
+      "cloud_coverage": 3.34
+    },
+    "5": {
+      "rainfall": 240.41,
+      "relative_humidity": 79.0,
+      "cloud_coverage": 4.34
+    },
+    "6": {
+      "rainfall": 360.3,
+      "relative_humidity": 84.62,
+      "cloud_coverage": 5.61
+    },
+    "7": {
+      "rainfall": 364.68,
+      "relative_humidity": 86.3,
+      "cloud_coverage": 6.08
+    },
+    "8": {
+      "rainfall": 309.57,
+      "relative_humidity": 85.05,
+      "cloud_coverage": 5.95
+    },
+    "9": {
+      "rainfall": 265.08,
+      "relative_humidity": 84.43,
+      "cloud_coverage": 5.31
+    },
+    "10": {
+      "rainfall": 156.51,
+      "relative_humidity": 80.76,
+      "cloud_coverage": 3.43
+    },
+    "11": {
+      "rainfall": 29.19,
+      "relative_humidity": 76.81,
+      "cloud_coverage": 1.81
+    },
+    "12": {
+      "rainfall": 3.11,
+      "relative_humidity": 76.54,
+      "cloud_coverage": 0.98
+    }
+  },
+  "Maijdee Court": {
+    "1": {
+      "rainfall": 9.87,
+      "relative_humidity": 76.34,
+      "cloud_coverage": 0.73
+    },
+    "2": {
+      "rainfall": 17.57,
+      "relative_humidity": 74.15,
+      "cloud_coverage": 1.36
+    },
+    "3": {
+      "rainfall": 53.78,
+      "relative_humidity": 74.98,
+      "cloud_coverage": 2.09
+    },
+    "4": {
+      "rainfall": 116.48,
+      "relative_humidity": 77.81,
+      "cloud_coverage": 3.16
+    },
+    "5": {
+      "rainfall": 324.75,
+      "relative_humidity": 80.85,
+      "cloud_coverage": 4.28
+    },
+    "6": {
+      "rainfall": 597.41,
+      "relative_humidity": 86.15,
+      "cloud_coverage": 5.88
+    },
+    "7": {
+      "rainfall": 713.41,
+      "relative_humidity": 87.65,
+      "cloud_coverage": 6.36
+    },
+    "8": {
+      "rainfall": 596.51,
+      "relative_humidity": 86.97,
+      "cloud_coverage": 6.1
+    },
+    "9": {
+      "rainfall": 383.67,
+      "relative_humidity": 85.94,
+      "cloud_coverage": 5.34
+    },
+    "10": {
+      "rainfall": 230.78,
+      "relative_humidity": 83.16,
+      "cloud_coverage": 3.19
+    },
+    "11": {
+      "rainfall": 49.05,
+      "relative_humidity": 79.37,
+      "cloud_coverage": 1.53
+    },
+    "12": {
+      "rainfall": 6.44,
+      "relative_humidity": 78.79,
+      "cloud_coverage": 0.76
+    }
+  },
+  "Mongla": {
+    "1": {
+      "rainfall": 10.87,
+      "relative_humidity": 75.6,
+      "cloud_coverage": 1.05
+    },
+    "2": {
+      "rainfall": 24.52,
+      "relative_humidity": 73.2,
+      "cloud_coverage": 1.37
+    },
+    "3": {
+      "rainfall": 39.78,
+      "relative_humidity": 73.08,
+      "cloud_coverage": 2.03
+    },
+    "4": {
+      "rainfall": 59.13,
+      "relative_humidity": 77.0,
+      "cloud_coverage": 3.2
+    },
+    "5": {
+      "rainfall": 178.57,
+      "relative_humidity": 80.44,
+      "cloud_coverage": 4.23
+    },
+    "6": {
+      "rainfall": 341.74,
+      "relative_humidity": 86.56,
+      "cloud_coverage": 5.59
+    },
+    "7": {
+      "rainfall": 381.22,
+      "relative_humidity": 88.56,
+      "cloud_coverage": 5.93
+    },
+    "8": {
+      "rainfall": 334.57,
+      "relative_humidity": 88.72,
+      "cloud_coverage": 5.7
+    },
+    "9": {
+      "rainfall": 334.13,
+      "relative_humidity": 89.12,
+      "cloud_coverage": 5.21
+    },
+    "10": {
+      "rainfall": 179.78,
+      "relative_humidity": 85.6,
+      "cloud_coverage": 3.48
+    },
+    "11": {
+      "rainfall": 38.52,
+      "relative_humidity": 80.48,
+      "cloud_coverage": 1.8
+    },
+    "12": {
+      "rainfall": 2.78,
+      "relative_humidity": 77.64,
+      "cloud_coverage": 1.01
+    }
+  },
+  "Mymensingh": {
+    "1": {
+      "rainfall": 9.05,
+      "relative_humidity": 75.5,
+      "cloud_coverage": 1.15
+    },
+    "2": {
+      "rainfall": 17.23,
+      "relative_humidity": 69.7,
+      "cloud_coverage": 1.46
+    },
+    "3": {
+      "rainfall": 36.83,
+      "relative_humidity": 67.74,
+      "cloud_coverage": 2.22
+    },
+    "4": {
+      "rainfall": 110.88,
+      "relative_humidity": 72.82,
+      "cloud_coverage": 3.79
+    },
+    "5": {
+      "rainfall": 304.58,
+      "relative_humidity": 79.83,
+      "cloud_coverage": 4.97
+    },
+    "6": {
+      "rainfall": 410.3,
+      "relative_humidity": 85.77,
+      "cloud_coverage": 6.2
+    },
+    "7": {
+      "rainfall": 415.88,
+      "relative_humidity": 86.52,
+      "cloud_coverage": 6.5
+    },
+    "8": {
+      "rainfall": 349.62,
+      "relative_humidity": 85.74,
+      "cloud_coverage": 6.24
+    },
+    "9": {
+      "rainfall": 310.21,
+      "relative_humidity": 85.68,
+      "cloud_coverage": 5.6
+    },
+    "10": {
+      "rainfall": 185.29,
+      "relative_humidity": 82.95,
+      "cloud_coverage": 3.36
+    },
+    "11": {
+      "rainfall": 17.76,
+      "relative_humidity": 78.3,
+      "cloud_coverage": 1.57
+    },
+    "12": {
+      "rainfall": 5.44,
+      "relative_humidity": 77.65,
+      "cloud_coverage": 1.01
+    }
+  },
+  "Patuakhali": {
+    "1": {
+      "rainfall": 6.41,
+      "relative_humidity": 77.36,
+      "cloud_coverage": 1.05
+    },
+    "2": {
+      "rainfall": 36.1,
+      "relative_humidity": 74.38,
+      "cloud_coverage": 1.58
+    },
+    "3": {
+      "rainfall": 41.18,
+      "relative_humidity": 75.05,
+      "cloud_coverage": 2.32
+    },
+    "4": {
+      "rainfall": 94.05,
+      "relative_humidity": 80.15,
+      "cloud_coverage": 3.66
+    },
+    "5": {
+      "rainfall": 255.49,
+      "relative_humidity": 82.87,
+      "cloud_coverage": 4.66
+    },
+    "6": {
+      "rainfall": 467.21,
+      "relative_humidity": 87.82,
+      "cloud_coverage": 5.95
+    },
+    "7": {
+      "rainfall": 534.56,
+      "relative_humidity": 89.87,
+      "cloud_coverage": 6.38
+    },
+    "8": {
+      "rainfall": 448.79,
+      "relative_humidity": 88.82,
+      "cloud_coverage": 6.18
+    },
+    "9": {
+      "rainfall": 358.03,
+      "relative_humidity": 88.33,
+      "cloud_coverage": 5.51
+    },
+    "10": {
+      "rainfall": 206.31,
+      "relative_humidity": 85.46,
+      "cloud_coverage": 3.57
+    },
+    "11": {
+      "rainfall": 40.56,
+      "relative_humidity": 81.46,
+      "cloud_coverage": 2.08
+    },
+    "12": {
+      "rainfall": 5.0,
+      "relative_humidity": 78.9,
+      "cloud_coverage": 1.13
+    }
+  },
+  "Rajshahi": {
+    "1": {
+      "rainfall": 9.88,
+      "relative_humidity": 75.46,
+      "cloud_coverage": 1.18
+    },
+    "2": {
+      "rainfall": 12.62,
+      "relative_humidity": 68.48,
+      "cloud_coverage": 1.24
+    },
+    "3": {
+      "rainfall": 23.56,
+      "relative_humidity": 60.44,
+      "cloud_coverage": 1.6
+    },
+    "4": {
+      "rainfall": 56.32,
+      "relative_humidity": 63.42,
+      "cloud_coverage": 2.56
+    },
+    "5": {
+      "rainfall": 134.3,
+      "relative_humidity": 73.32,
+      "cloud_coverage": 3.79
+    },
+    "6": {
+      "rainfall": 260.46,
+      "relative_humidity": 82.7,
+      "cloud_coverage": 5.46
+    },
+    "7": {
+      "rainfall": 328.9,
+      "relative_humidity": 87.0,
+      "cloud_coverage": 6.11
+    },
+    "8": {
+      "rainfall": 261.96,
+      "relative_humidity": 86.12,
+      "cloud_coverage": 5.78
+    },
+    "9": {
+      "rainfall": 271.9,
+      "relative_humidity": 85.7,
+      "cloud_coverage": 5.25
+    },
+    "10": {
+      "rainfall": 118.3,
+      "relative_humidity": 81.96,
+      "cloud_coverage": 2.99
+    },
+    "11": {
+      "rainfall": 13.62,
+      "relative_humidity": 77.14,
+      "cloud_coverage": 1.53
+    },
+    "12": {
+      "rainfall": 7.76,
+      "relative_humidity": 76.68,
+      "cloud_coverage": 1.02
+    }
+  },
+  "Rangamati": {
+    "1": {
+      "rainfall": 5.09,
+      "relative_humidity": 76.68,
+      "cloud_coverage": 1.48
+    },
+    "2": {
+      "rainfall": 15.28,
+      "relative_humidity": 69.73,
+      "cloud_coverage": 1.51
+    },
+    "3": {
+      "rainfall": 47.91,
+      "relative_humidity": 67.71,
+      "cloud_coverage": 2.06
+    },
+    "4": {
+      "rainfall": 117.89,
+      "relative_humidity": 72.05,
+      "cloud_coverage": 3.07
+    },
+    "5": {
+      "rainfall": 286.07,
+      "relative_humidity": 77.66,
+      "cloud_coverage": 4.3
+    },
+    "6": {
+      "rainfall": 482.04,
+      "relative_humidity": 84.07,
+      "cloud_coverage": 5.68
+    },
+    "7": {
+      "rainfall": 555.25,
+      "relative_humidity": 85.71,
+      "cloud_coverage": 5.98
+    },
+    "8": {
+      "rainfall": 412.81,
+      "relative_humidity": 85.59,
+      "cloud_coverage": 5.89
+    },
+    "9": {
+      "rainfall": 292.0,
+      "relative_humidity": 84.61,
+      "cloud_coverage": 5.31
+    },
+    "10": {
+      "rainfall": 175.3,
+      "relative_humidity": 83.62,
+      "cloud_coverage": 3.96
+    },
+    "11": {
+      "rainfall": 47.44,
+      "relative_humidity": 81.71,
+      "cloud_coverage": 2.82
+    },
+    "12": {
+      "rainfall": 12.26,
+      "relative_humidity": 80.48,
+      "cloud_coverage": 2.14
+    }
+  },
+  "Rangpur": {
+    "1": {
+      "rainfall": 8.02,
+      "relative_humidity": 81.53,
+      "cloud_coverage": 1.26
+    },
+    "2": {
+      "rainfall": 8.83,
+      "relative_humidity": 75.27,
+      "cloud_coverage": 1.21
+    },
+    "3": {
+      "rainfall": 27.73,
+      "relative_humidity": 68.18,
+      "cloud_coverage": 1.62
+    },
+    "4": {
+      "rainfall": 92.85,
+      "relative_humidity": 72.49,
+      "cloud_coverage": 3.12
+    },
+    "5": {
+      "rainfall": 261.35,
+      "relative_humidity": 80.05,
+      "cloud_coverage": 4.43
+    },
+    "6": {
+      "rainfall": 438.95,
+      "relative_humidity": 85.0,
+      "cloud_coverage": 5.69
+    },
+    "7": {
+      "rainfall": 466.43,
+      "relative_humidity": 86.07,
+      "cloud_coverage": 6.01
+    },
+    "8": {
+      "rainfall": 345.43,
+      "relative_humidity": 85.27,
+      "cloud_coverage": 5.66
+    },
+    "9": {
+      "rainfall": 317.95,
+      "relative_humidity": 86.25,
+      "cloud_coverage": 5.08
+    },
+    "10": {
+      "rainfall": 166.17,
+      "relative_humidity": 84.51,
+      "cloud_coverage": 3.0
+    },
+    "11": {
+      "rainfall": 10.77,
+      "relative_humidity": 81.29,
+      "cloud_coverage": 1.36
+    },
+    "12": {
+      "rainfall": 10.73,
+      "relative_humidity": 81.71,
+      "cloud_coverage": 1.01
+    }
+  },
+  "Sandwip": {
+    "1": {
+      "rainfall": 7.43,
+      "relative_humidity": 79.04,
+      "cloud_coverage": 0.88
+    },
+    "2": {
+      "rainfall": 19.81,
+      "relative_humidity": 77.22,
+      "cloud_coverage": 1.4
+    },
+    "3": {
+      "rainfall": 57.15,
+      "relative_humidity": 79.41,
+      "cloud_coverage": 2.15
+    },
+    "4": {
+      "rainfall": 145.04,
+      "relative_humidity": 81.91,
+      "cloud_coverage": 3.13
+    },
+    "5": {
+      "rainfall": 346.51,
+      "relative_humidity": 83.96,
+      "cloud_coverage": 4.12
+    },
+    "6": {
+      "rainfall": 647.02,
+      "relative_humidity": 88.09,
+      "cloud_coverage": 5.55
+    },
+    "7": {
+      "rainfall": 866.81,
+      "relative_humidity": 89.83,
+      "cloud_coverage": 5.91
+    },
+    "8": {
+      "rainfall": 690.23,
+      "relative_humidity": 88.72,
+      "cloud_coverage": 5.67
+    },
+    "9": {
+      "rainfall": 452.53,
+      "relative_humidity": 87.07,
+      "cloud_coverage": 4.85
+    },
+    "10": {
+      "rainfall": 259.51,
+      "relative_humidity": 84.43,
+      "cloud_coverage": 3.12
+    },
+    "11": {
+      "rainfall": 52.51,
+      "relative_humidity": 81.65,
+      "cloud_coverage": 1.86
+    },
+    "12": {
+      "rainfall": 9.49,
+      "relative_humidity": 80.46,
+      "cloud_coverage": 0.93
+    }
+  },
+  "Satkhira": {
+    "1": {
+      "rainfall": 9.79,
+      "relative_humidity": 74.02,
+      "cloud_coverage": 1.15
+    },
+    "2": {
+      "rainfall": 26.32,
+      "relative_humidity": 70.29,
+      "cloud_coverage": 1.48
+    },
+    "3": {
+      "rainfall": 35.32,
+      "relative_humidity": 67.98,
+      "cloud_coverage": 2.08
+    },
+    "4": {
+      "rainfall": 73.29,
+      "relative_humidity": 72.11,
+      "cloud_coverage": 2.97
+    },
+    "5": {
+      "rainfall": 149.79,
+      "relative_humidity": 74.67,
+      "cloud_coverage": 3.95
+    },
+    "6": {
+      "rainfall": 285.76,
+      "relative_humidity": 82.27,
+      "cloud_coverage": 5.37
+    },
+    "7": {
+      "rainfall": 348.23,
+      "relative_humidity": 85.94,
+      "cloud_coverage": 5.86
+    },
+    "8": {
+      "rainfall": 302.2,
+      "relative_humidity": 86.33,
+      "cloud_coverage": 5.73
+    },
+    "9": {
+      "rainfall": 273.92,
+      "relative_humidity": 86.11,
+      "cloud_coverage": 5.19
+    },
+    "10": {
+      "rainfall": 146.59,
+      "relative_humidity": 82.0,
+      "cloud_coverage": 3.5
+    },
+    "11": {
+      "rainfall": 26.65,
+      "relative_humidity": 76.12,
+      "cloud_coverage": 1.9
+    },
+    "12": {
+      "rainfall": 6.39,
+      "relative_humidity": 74.58,
+      "cloud_coverage": 1.07
+    }
+  },
+  "Sitakunda": {
+    "1": {
+      "rainfall": 3.73,
+      "relative_humidity": 73.22,
+      "cloud_coverage": 0.95
+    },
+    "2": {
+      "rainfall": 17.11,
+      "relative_humidity": 69.81,
+      "cloud_coverage": 1.49
+    },
+    "3": {
+      "rainfall": 63.08,
+      "relative_humidity": 73.31,
+      "cloud_coverage": 2.38
+    },
+    "4": {
+      "rainfall": 154.49,
+      "relative_humidity": 77.83,
+      "cloud_coverage": 3.23
+    },
+    "5": {
+      "rainfall": 335.59,
+      "relative_humidity": 80.47,
+      "cloud_coverage": 4.26
+    },
+    "6": {
+      "rainfall": 558.22,
+      "relative_humidity": 84.86,
+      "cloud_coverage": 5.74
+    },
+    "7": {
+      "rainfall": 670.59,
+      "relative_humidity": 87.03,
+      "cloud_coverage": 6.11
+    },
+    "8": {
+      "rainfall": 537.22,
+      "relative_humidity": 85.97,
+      "cloud_coverage": 5.94
+    },
+    "9": {
+      "rainfall": 349.78,
+      "relative_humidity": 84.86,
+      "cloud_coverage": 5.23
+    },
+    "10": {
+      "rainfall": 229.49,
+      "relative_humidity": 82.47,
+      "cloud_coverage": 3.39
+    },
+    "11": {
+      "rainfall": 44.35,
+      "relative_humidity": 78.42,
+      "cloud_coverage": 1.91
+    },
+    "12": {
+      "rainfall": 6.62,
+      "relative_humidity": 76.11,
+      "cloud_coverage": 1.18
+    }
+  },
+  "Srimangal": {
+    "1": {
+      "rainfall": 8.02,
+      "relative_humidity": 82.17,
+      "cloud_coverage": 1.07
+    },
+    "2": {
+      "rainfall": 27.82,
+      "relative_humidity": 74.83,
+      "cloud_coverage": 1.47
+    },
+    "3": {
+      "rainfall": 77.8,
+      "relative_humidity": 69.7,
+      "cloud_coverage": 2.21
+    },
+    "4": {
+      "rainfall": 206.82,
+      "relative_humidity": 73.62,
+      "cloud_coverage": 3.45
+    },
+    "5": {
+      "rainfall": 391.38,
+      "relative_humidity": 79.58,
+      "cloud_coverage": 4.43
+    },
+    "6": {
+      "rainfall": 466.82,
+      "relative_humidity": 85.2,
+      "cloud_coverage": 5.45
+    },
+    "7": {
+      "rainfall": 343.54,
+      "relative_humidity": 86.03,
+      "cloud_coverage": 5.62
+    },
+    "8": {
+      "rainfall": 327.0,
+      "relative_humidity": 86.61,
+      "cloud_coverage": 5.52
+    },
+    "9": {
+      "rainfall": 247.65,
+      "relative_humidity": 86.98,
+      "cloud_coverage": 4.9
+    },
+    "10": {
+      "rainfall": 162.95,
+      "relative_humidity": 86.02,
+      "cloud_coverage": 3.24
+    },
+    "11": {
+      "rainfall": 38.12,
+      "relative_humidity": 84.21,
+      "cloud_coverage": 1.63
+    },
+    "12": {
+      "rainfall": 6.95,
+      "relative_humidity": 84.44,
+      "cloud_coverage": 0.95
+    }
+  },
+  "Sylhet": {
+    "1": {
+      "rainfall": 8.98,
+      "relative_humidity": 73.53,
+      "cloud_coverage": 1.65
+    },
+    "2": {
+      "rainfall": 30.98,
+      "relative_humidity": 67.04,
+      "cloud_coverage": 1.94
+    },
+    "3": {
+      "rainfall": 114.41,
+      "relative_humidity": 65.58,
+      "cloud_coverage": 3.01
+    },
+    "4": {
+      "rainfall": 343.78,
+      "relative_humidity": 75.25,
+      "cloud_coverage": 4.7
+    },
+    "5": {
+      "rainfall": 570.6,
+      "relative_humidity": 81.33,
+      "cloud_coverage": 5.68
+    },
+    "6": {
+      "rainfall": 799.28,
+      "relative_humidity": 87.14,
+      "cloud_coverage": 6.83
+    },
+    "7": {
+      "rainfall": 773.66,
+      "relative_humidity": 87.25,
+      "cloud_coverage": 7.09
+    },
+    "8": {
+      "rainfall": 618.57,
+      "relative_humidity": 86.54,
+      "cloud_coverage": 6.82
+    },
+    "9": {
+      "rainfall": 493.84,
+      "relative_humidity": 86.11,
+      "cloud_coverage": 6.12
+    },
+    "10": {
+      "rainfall": 218.4,
+      "relative_humidity": 82.91,
+      "cloud_coverage": 4.01
+    },
+    "11": {
+      "rainfall": 24.17,
+      "relative_humidity": 76.79,
+      "cloud_coverage": 2.11
+    },
+    "12": {
+      "rainfall": 8.03,
+      "relative_humidity": 74.82,
+      "cloud_coverage": 1.39
+    }
+  },
+  "Tangail": {
+    "1": {
+      "rainfall": 6.07,
+      "relative_humidity": 80.33,
+      "cloud_coverage": 1.24
+    },
+    "2": {
+      "rainfall": 23.11,
+      "relative_humidity": 74.26,
+      "cloud_coverage": 1.31
+    },
+    "3": {
+      "rainfall": 42.22,
+      "relative_humidity": 69.56,
+      "cloud_coverage": 1.91
+    },
+    "4": {
+      "rainfall": 107.07,
+      "relative_humidity": 73.89,
+      "cloud_coverage": 3.16
+    },
+    "5": {
+      "rainfall": 257.33,
+      "relative_humidity": 79.52,
+      "cloud_coverage": 4.5
+    },
+    "6": {
+      "rainfall": 310.67,
+      "relative_humidity": 84.41,
+      "cloud_coverage": 5.62
+    },
+    "7": {
+      "rainfall": 319.85,
+      "relative_humidity": 85.7,
+      "cloud_coverage": 6.05
+    },
+    "8": {
+      "rainfall": 267.78,
+      "relative_humidity": 85.37,
+      "cloud_coverage": 5.77
+    },
+    "9": {
+      "rainfall": 307.56,
+      "relative_humidity": 85.56,
+      "cloud_coverage": 5.26
+    },
+    "10": {
+      "rainfall": 161.78,
+      "relative_humidity": 83.22,
+      "cloud_coverage": 3.3
+    },
+    "11": {
+      "rainfall": 26.74,
+      "relative_humidity": 80.7,
+      "cloud_coverage": 1.63
+    },
+    "12": {
+      "rainfall": 10.74,
+      "relative_humidity": 81.93,
+      "cloud_coverage": 1.04
+    }
+  },
+  "Teknaf": {
+    "1": {
+      "rainfall": 3.16,
+      "relative_humidity": 66.62,
+      "cloud_coverage": 0.66
+    },
+    "2": {
+      "rainfall": 11.41,
+      "relative_humidity": 66.35,
+      "cloud_coverage": 1.02
+    },
+    "3": {
+      "rainfall": 13.65,
+      "relative_humidity": 72.05,
+      "cloud_coverage": 1.56
+    },
+    "4": {
+      "rainfall": 69.81,
+      "relative_humidity": 76.78,
+      "cloud_coverage": 2.66
+    },
+    "5": {
+      "rainfall": 293.62,
+      "relative_humidity": 80.03,
+      "cloud_coverage": 4.18
+    },
+    "6": {
+      "rainfall": 960.35,
+      "relative_humidity": 87.59,
+      "cloud_coverage": 6.32
+    },
+    "7": {
+      "rainfall": 1090.89,
+      "relative_humidity": 89.3,
+      "cloud_coverage": 6.67
+    },
+    "8": {
+      "rainfall": 890.41,
+      "relative_humidity": 88.89,
+      "cloud_coverage": 6.54
+    },
+    "9": {
+      "rainfall": 443.32,
+      "relative_humidity": 86.38,
+      "cloud_coverage": 5.51
+    },
+    "10": {
+      "rainfall": 249.46,
+      "relative_humidity": 82.51,
+      "cloud_coverage": 3.61
+    },
+    "11": {
+      "rainfall": 65.41,
+      "relative_humidity": 75.68,
+      "cloud_coverage": 2.12
+    },
+    "12": {
+      "rainfall": 12.92,
+      "relative_humidity": 69.97,
+      "cloud_coverage": 1.24
+    }
+  }
+}
