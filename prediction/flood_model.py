@@ -92,10 +92,17 @@ def predict_flood_risk(rainfall: float, relative_humidity: float, cloud_coverage
     prediction = model.predict(input_df)[0]
     probabilities = model.predict_proba(input_df)[0]
     confidence = float(max(probabilities))
+    
+    # Probability of the flood class specifically (not just the winning class).
+    # Look the index up from classes_ rather than assuming position, so it
+    # stays correct if the class order ever changes on retraining.
+    flood_index = list(model.classes_).index(1)
+    flood_probability = float(probabilities[flood_index])
 
     result = {
         "flood_predicted": bool(prediction),
         "confidence": round(confidence, 3),
+        "flood_probability": round(flood_probability, 3),
         "risk_label": "High" if prediction == 1 else "Low",
     }
     if warnings:
