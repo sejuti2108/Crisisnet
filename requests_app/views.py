@@ -56,3 +56,20 @@ def suggest_warehouses(request_id):
         item_name=req.item_name,
         quantity__gte=req.quantity
     ).select_related("warehouse")
+from django.http import HttpResponse
+
+
+def live_test(request):
+    html = """
+    <h2>Live updates test</h2>
+    <ul id="log"></ul>
+    <script>
+      const ws = new WebSocket("ws://" + window.location.host + "/ws/requests/");
+      ws.onmessage = function (e) {
+        const li = document.createElement("li");
+        li.textContent = e.data;
+        document.getElementById("log").appendChild(li);
+      };
+    </script>
+    """
+    return HttpResponse(html)

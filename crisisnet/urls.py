@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from requests_app.views import live_test
 urlpatterns = [
     path('admin/', admin.site.urls),
+     path("live/", live_test),
 ]
