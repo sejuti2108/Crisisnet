@@ -1,7 +1,26 @@
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.db import transaction
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 from warehouses.models import InventoryItem
 from .models import Request
+
+
+def broadcast_update(req):
+    layer = get_channel_layer()
+    async_to_sync(layer.group_send)(
+        "requests",
+        {
+            "type": "request_update",
+            "data": {
+                "id": req.id,
+                "shelter": req.shelter_name,
+                "item": req.item_name,
+                "quantity": req.quantity,
+                "status": req.status,
+            },
+        },
+    )
 
 
 @transaction.atomic
@@ -25,6 +44,7 @@ def approve_request(request_id, warehouse_id):
     req.status = Request.Status.APPROVED
     req.fulfilled_by_id = warehouse_id
     req.save()
+    transaction.on_commit(lambda: broadcast_update(req))
     return req
 
 
@@ -37,6 +57,7 @@ def reject_request(request_id):
 
     req.status = Request.Status.REJECTED
     req.save()
+    transaction.on_commit(lambda: broadcast_update(req))
     return req
 
 
@@ -49,14 +70,16 @@ def dispatch_request(request_id):
 
     req.status = Request.Status.DISPATCHED
     req.save()
+    transaction.on_commit(lambda: broadcast_update(req))
     return req
+
+
 def suggest_warehouses(request_id):
     req = Request.objects.get(pk=request_id)
     return InventoryItem.objects.filter(
         item_name=req.item_name,
         quantity__gte=req.quantity
     ).select_related("warehouse")
-from django.http import HttpResponse
 
 
 def live_test(request):
@@ -73,3 +96,11 @@ def live_test(request):
     </script>
     """
     return HttpResponse(html)
+
+
+def test_broadcast(request):
+    req = Request.objects.create(
+        shelter_name="Mirpur Shelter 1", item_name="Blanket", quantity=10
+    )
+    reject_request(req.id)
+    return HttpResponse(f"Created and rejected request {req.id}")
