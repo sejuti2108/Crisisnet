@@ -50,3 +50,9 @@ def dispatch_request(request_id):
     req.status = Request.Status.DISPATCHED
     req.save()
     return req
+def suggest_warehouses(request_id):
+    req = Request.objects.get(pk=request_id)
+    return InventoryItem.objects.filter(
+        item_name=req.item_name,
+        quantity__gte=req.quantity
+    ).select_related("warehouse")
