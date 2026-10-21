@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Warehouse Coordinator Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; background: #f5f6f8; color: #222; }
+    h1 { margin-bottom: 4px; }
+    h2 { margin-top: 32px; }
+    table { border-collapse: collapse; width: 100%; background: white; }
+    th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; }
+    th { background: #1f3864; color: white; }
+    .badge { padding: 2px 8px; border-radius: 10px; font-size: 13px; }
+    .pending { background: #fff3cd; }
+    .approved { background: #cfe2ff; }
+    .rejected { background: #f8d7da; }
+    .dispatched { background: #d1e7dd; }
+    .msg { padding: 8px 12px; margin: 6px 0; border-radius: 4px; }
+    .msg.success { background: #d1e7dd; }
+    .msg.error { background: #f8d7da; }
+    form { display: inline; }
+    button { padding: 4px 10px; cursor: pointer; }
+    #live { color: #666; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h1>Warehouse Coordinator Dashboard</h1>
+  <div id="live">Connecting to live updates...</div>
+
+  {% for m in messages %}
+    <div class="msg {{ m.tags }}">{{ m }}</div>
+  {% endfor %}
+
+  <h2>Requests</h2>
+  <table>
+    <tr>
+      <th>ID</th><th>Shelter</th><th>Item</th><th>Quantity</th>
+      <th>Status</th><th>Fulfilled by</th><th>Action</th>
+    </tr>
+    {% for row in rows %}
+    <tr>
+      <td>{{ row.req.id }}</td>
+      <td>{{ row.req.shelter_name }}</td>
+      <td>{{ row.req.item_name }}</td>
+      <td>{{ row.req.quantity }}</td>
+      <td><span class="badge {{ row.req.status }}">{{ row.req.get_status_display }}</span></td>
+      <td>{{ row.req.fulfilled_by|default:"-" }}</td>
+      <td>
+        {% if row.req.status == "pending" %}
+          {% if row.options %}
+            <form method="post" action="{% url 'approve' row.req.id %}">
+              {% csrf_token %}
+              <select name="warehouse">
+                {% for item in row.options %}
+                  <option value="{{ item.warehouse.id }}">{{ item.warehouse.name }} ({{ item.quantity }} in stock)</option>
+                {% endfor %}
+              </select>
+              <button type="submit">Approve</button>
+            </form>
+          {% else %}
+            <em>No warehouse has enough stock</em>
+          {% endif %}
+          <form method="post" action="{% url 'reject' row.req.id %}">
+            {% csrf_token %}
+            <button type="submit">Reject</button>
+          </form>
+        {% elif row.req.status == "approved" %}
+          <form method="post" action="{% url 'dispatch' row.req.id %}">
+            {% csrf_token %}
+            <button type="submit">Dispatch</button>
+          </form>
+        {% else %}
+          -
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7">No requests yet.</td></tr>
+    {% endfor %}
+  </table>
+
+  <h2>Warehouse stock</h2>
+  <table>
+    <tr><th>Warehouse</th><th>Item</th><th>Quantity</th><th>Unit</th></tr>
+    {% for item in stock %}
+    <tr>
+      <td>{{ item.warehouse.name }}</td>
+      <td>{{ item.item_name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.unit }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No stock yet.</td></tr>
+    {% endfor %}
+  </table>
+
+  <script>
+    const ws = new WebSocket("ws://" + window.location.host + "/ws/requests/");
+    ws.onopen = function () {
+      document.getElementById("live").textContent = "Live updates connected";
+    };
+    ws.onclose = function () {
+      document.getElementById("live").textContent = "Live updates disconnected";
+    };
+    ws.onmessage = function (e) {
+      const data = JSON.parse(e.data);
+      // Ignore the greeting message; reload only when a request changed.
+      if (data.id) {
+        window.location.reload();
+      }
+    };
+  </script>
+</body>
+</html>
