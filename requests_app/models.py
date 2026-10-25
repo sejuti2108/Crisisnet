@@ -22,4 +22,12 @@ class Request(models.Model):
     def __str__(self):
         return f"{self.item_name} x{self.quantity} for {self.shelter_name} ({self.status})"
 
+class AuditLog(models.Model):
+    request = models.ForeignKey(Request, null=True, on_delete=models.SET_NULL)
+    action = models.CharField(max_length=50)
+    actor = models.CharField(max_length=100, default="coordinator")
+    details = models.CharField(max_length=255, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f"{self.timestamp:%Y-%m-%d %H:%M} {self.actor}: {self.action} (request {self.request_id})"

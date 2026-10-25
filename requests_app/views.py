@@ -3,7 +3,7 @@ from channels.layers import get_channel_layer
 from django.db import transaction
 from django.http import HttpResponse
 from warehouses.models import InventoryItem
-from .models import Request
+from .models import Request, AuditLog
 
 
 def broadcast_update(req):
@@ -24,7 +24,7 @@ def broadcast_update(req):
 
 
 @transaction.atomic
-def approve_request(request_id, warehouse_id):
+def approve_request(request_id, warehouse_id, actor="coordinator"):
     req = Request.objects.select_for_update().get(pk=request_id)
 
     if req.status != Request.Status.PENDING:
@@ -44,12 +44,19 @@ def approve_request(request_id, warehouse_id):
     req.status = Request.Status.APPROVED
     req.fulfilled_by_id = warehouse_id
     req.save()
+
+    AuditLog.objects.create(
+        request=req,
+        action="approved",
+        actor=actor,
+        details=f"{req.quantity} x {req.item_name} from warehouse {warehouse_id}",
+    )
     transaction.on_commit(lambda: broadcast_update(req))
     return req
 
 
 @transaction.atomic
-def reject_request(request_id):
+def reject_request(request_id, actor="coordinator"):
     req = Request.objects.select_for_update().get(pk=request_id)
 
     if req.status != Request.Status.PENDING:
@@ -57,12 +64,19 @@ def reject_request(request_id):
 
     req.status = Request.Status.REJECTED
     req.save()
+
+    AuditLog.objects.create(
+        request=req,
+        action="rejected",
+        actor=actor,
+        details=f"{req.quantity} x {req.item_name} for {req.shelter_name}",
+    )
     transaction.on_commit(lambda: broadcast_update(req))
     return req
 
 
 @transaction.atomic
-def dispatch_request(request_id):
+def dispatch_request(request_id, actor="coordinator"):
     req = Request.objects.select_for_update().get(pk=request_id)
 
     if req.status != Request.Status.APPROVED:
@@ -70,6 +84,13 @@ def dispatch_request(request_id):
 
     req.status = Request.Status.DISPATCHED
     req.save()
+
+    AuditLog.objects.create(
+        request=req,
+        action="dispatched",
+        actor=actor,
+        details=f"{req.quantity} x {req.item_name} to {req.shelter_name}",
+    )
     transaction.on_commit(lambda: broadcast_update(req))
     return req
 
