@@ -117,11 +117,3 @@ def live_test(request):
     </script>
     """
     return HttpResponse(html)
-
-
-def test_broadcast(request):
-    req = Request.objects.create(
-        shelter_name="Mirpur Shelter 1", item_name="Blanket", quantity=10
-    )
-    reject_request(req.id)
-    return HttpResponse(f"Created and rejected request {req.id}")

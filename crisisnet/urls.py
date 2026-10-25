@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from requests_app.views import live_test, test_broadcast
+from requests_app.views import live_test
 from requests_app.dashboard import (
     dashboard,
     approve_action,
@@ -12,7 +12,6 @@ from requests_app.dashboard import (
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("live/", live_test),
-    path("test-broadcast/", test_broadcast),
     path("coordinator/", dashboard, name="dashboard"),
     path("coordinator/approve/<int:request_id>/", approve_action, name="approve"),
     path("coordinator/reject/<int:request_id>/", reject_action, name="reject"),
