@@ -133,3 +133,7 @@ ASGI_APPLICATION = "crisisnet.asgi.application"
 CHANNEL_LAYERS = {
     "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}
 }
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "dashboard_redirect"
+LOGOUT_REDIRECT_URL = "login"

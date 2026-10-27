@@ -1,5 +1,6 @@
 from django.contrib import admin
-from django.urls import path
+from django.shortcuts import redirect
+from django.urls import include, path
 
 from requests_app.views import live_test, test_broadcast
 from requests_app.dashboard import (
@@ -10,7 +11,9 @@ from requests_app.dashboard import (
 )
 
 urlpatterns = [
+    path("", lambda request: redirect("dashboard_redirect"), name="home"),
     path("admin/", admin.site.urls),
+    path("", include("accounts.urls")),
     path("live/", live_test),
     path("test-broadcast/", test_broadcast),
     path("coordinator/", dashboard, name="dashboard"),

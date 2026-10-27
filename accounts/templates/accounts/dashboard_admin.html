@@ -1,0 +1,41 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Administrator Dashboard — CrisisNet{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+      <h1 style="font-size: 1.8rem; color: var(--primary);">System Administrator Dashboard</h1>
+      <p style="color: var(--text-muted);">Central coordination, authority control, and disaster relief management</p>
+    </div>
+    <span class="role-badge badge-admin" style="font-size: 0.9rem; padding: 6px 14px;">Administrator Role</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 24px;">
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; border-left: 4px solid var(--accent);">
+      <h3 style="margin-bottom: 8px;">User & Role Control</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">Provision Coordinator and Shelter Manager credentials</p>
+      <a href="{% url 'admin_create_account' %}" class="btn btn-primary" style="font-size: 0.85rem;">Create Account</a>
+    </div>
+
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; border-left: 4px solid #0077b6;">
+      <h3 style="margin-bottom: 8px;">Shelters & Logistics</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">Monitor shelter capacities and supply demands</p>
+      <a href="/admin/shelters/shelter/" class="btn btn-primary" style="font-size: 0.85rem; background:#0077b6;">Manage Shelters</a>
+    </div>
+
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; border-left: 4px solid #2a9d8f;">
+      <h3 style="margin-bottom: 8px;">Incidents & Hazards</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">Review active disaster zones and affected zones</p>
+      <a href="/admin/incidents/incident/" class="btn btn-primary" style="font-size: 0.85rem; background:#2a9d8f;">View Incidents</a>
+    </div>
+
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; border-left: 4px solid #e76f51;">
+      <h3 style="margin-bottom: 8px;">Volunteer Force</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 16px;">Track readiness and dispatch field volunteers</p>
+      <a href="/volunteers/manage/" class="btn btn-primary" style="font-size: 0.85rem; background:#e76f51;">Volunteer Hub</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
