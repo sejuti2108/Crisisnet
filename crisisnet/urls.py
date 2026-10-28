@@ -14,6 +14,7 @@ urlpatterns = [
     path("", lambda request: redirect("dashboard_redirect"), name="home"),
     path("admin/", admin.site.urls),
     path("", include("accounts.urls")),
+    path("shelters/", include("shelters.urls")),
     path("live/", live_test),
     path("test-broadcast/", test_broadcast),
     path("coordinator/", dashboard, name="dashboard"),

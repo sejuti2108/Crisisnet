@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'channels',
     'accounts',
+    'shelters',
     'warehouses',
     'requests_app',
 ]
