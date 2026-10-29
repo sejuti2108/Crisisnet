@@ -1,0 +1,142 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Emergency Incidents — CrisisNet{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <h1 style="font-size: 1.8rem; color: var(--primary);">Emergency Incidents & Hazards</h1>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">Real-time tracking of active disaster events and affected populations</p>
+  </div>
+  {% if user.is_staff or user.role == "admin" %}
+    <a href="/admin/incidents/incident/add/" class="btn btn-primary" style="font-size:0.9rem;">+ Report New Incident</a>
+  {% endif %}
+</div>
+
+<!-- Incident Summary Stats -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #dc3545;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Critical Alerts</div>
+    <div style="font-size: 2rem; font-weight: 700; color: #dc3545; margin-top: 4px;">{{ critical_count }}</div>
+    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Requires immediate intervention</div>
+  </div>
+
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #0077b6;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Active Emergencies</div>
+    <div style="font-size: 2rem; font-weight: 700; color: #0077b6; margin-top: 4px;">{{ total_active }}</div>
+    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Ongoing response operations</div>
+  </div>
+
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #28a745;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Total Recorded</div>
+    <div style="font-size: 2rem; font-weight: 700; color: #28a745; margin-top: 4px;">{{ incidents.count }}</div>
+    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Historical disaster log</div>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="card" style="padding: 16px 20px; margin-bottom: 20px;">
+  <form method="get" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
+    <div>
+      <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px;">Status:</label>
+      <select name="status" style="padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border);">
+        <option value="">All Statuses</option>
+        {% for val, label in status_choices %}
+          <option value="{{ val }}" {% if val == selected_status %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px;">Severity:</label>
+      <select name="severity" style="padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border);">
+        <option value="">All Severities</option>
+        {% for val, label in severity_choices %}
+          <option value="{{ val }}" {% if val == selected_severity %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px;">Disaster Type:</label>
+      <select name="type" style="padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border);">
+        <option value="">All Types</option>
+        {% for val, label in type_choices %}
+          <option value="{{ val }}" {% if val == selected_type %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="padding: 6px 14px;">Apply Filter</button>
+    <a href="{% url 'incident_list' %}" class="btn" style="background:#e9ecef; color:var(--text); padding: 6px 12px;">Reset</a>
+  </form>
+</div>
+
+<!-- Incidents Table -->
+<div class="card" style="padding: 0; overflow: hidden;">
+  <div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+      <thead>
+        <tr style="background: #1f3864; color: white; text-align: left;">
+          <th style="padding: 12px 14px;">Incident Title</th>
+          <th style="padding: 12px 14px;">Type</th>
+          <th style="padding: 12px 14px;">Location</th>
+          <th style="padding: 12px 14px;">Severity</th>
+          <th style="padding: 12px 14px;">Status</th>
+          <th style="padding: 12px 14px;">Shelters</th>
+          <th style="padding: 12px 14px;">Reported</th>
+          <th style="padding: 12px 14px; text-align: center;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inc in incidents %}
+          <tr style="border-bottom: 1px solid var(--border);">
+            <td style="padding: 12px 14px;">
+              <a href="{% url 'incident_detail' inc.id %}" style="color: var(--primary); font-weight: 600; text-decoration: none;">
+                {{ inc.title }}
+              </a>
+            </td>
+            <td style="padding: 12px 14px;">{{ inc.get_incident_type_display }}</td>
+            <td style="padding: 12px 14px;">📍 {{ inc.location }}</td>
+            <td style="padding: 12px 14px;">
+              <span class="role-badge" style="
+                {% if inc.severity == 'critical' %}background: #dc3545; color: white;
+                {% elif inc.severity == 'high' %}background: #e63946; color: white;
+                {% elif inc.severity == 'medium' %}background: #ffc107; color: #212529;
+                {% else %}background: #17a2b8; color: white;
+                {% endif %}
+                font-size: 0.75rem; text-transform: uppercase;">
+                {{ inc.get_severity_display }}
+              </span>
+            </td>
+            <td style="padding: 12px 14px;">
+              <span class="role-badge" style="
+                {% if inc.status == 'active' %}background: #dc3545; color: white;
+                {% elif inc.status == 'reported' %}background: #fd7e14; color: white;
+                {% elif inc.status == 'contained' %}background: #0077b6; color: white;
+                {% else %}background: #28a745; color: white;
+                {% endif %}
+                font-size: 0.75rem; text-transform: uppercase;">
+                {{ inc.get_status_display }}
+              </span>
+            </td>
+            <td style="padding: 12px 14px;">{{ inc.affected_shelters.count }} shelter(s)</td>
+            <td style="padding: 12px 14px; font-size: 0.8rem; color: var(--text-muted);">{{ inc.created_at|date:"M d, Y" }}</td>
+            <td style="padding: 12px 14px; text-align: center;">
+              <a href="{% url 'incident_detail' inc.id %}" class="btn btn-primary" style="font-size: 0.8rem; padding: 4px 10px;">
+                View Details
+              </a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 32px; color: var(--text-muted);">
+              No incidents reported matching the selected criteria.
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

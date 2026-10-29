@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'channels',
     'accounts',
     'shelters',
+    'incidents',
     'warehouses',
     'requests_app',
 ]
