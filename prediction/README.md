@@ -94,7 +94,7 @@ cd prediction/map_prototype
 python -m http.server 8000
 ```
 
-Open http://localhost:8000. A local server is needed because browsers block `fetch()` for files opened directly. Pass a month number to the generator (for example `7`) to preview another season. Leaflet is loaded from a CDN for now.
+Open http://localhost:8000. A local server is needed because browsers block `fetch()` for files opened directly. Pass a month number to the generator (for example `7`) to preview another season. Leaflet is bundled in `map_prototype/vendor/leaflet/`, so the page itself needs no internet. The basemap tiles still load from OpenStreetMap, which does need a connection.
 
 ## Regenerating data
 
