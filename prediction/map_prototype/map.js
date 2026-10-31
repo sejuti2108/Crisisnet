@@ -28,7 +28,11 @@ const OCCUPANCY_LABELS = {
 
 const map = L.map('map', { zoomControl: true, maxBoundsViscosity: 0.8 }).setView([23.8, 90.4], 7);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+/* Basemap source. Online only: OpenStreetMap's tile servers do not allow
+   offline use, so an offline demo needs a self-hosted tile source here. */
+const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+L.tileLayer(TILE_URL, {
   minZoom: 6,
   maxZoom: 15,
   attribution: '&copy; OpenStreetMap contributors'
@@ -191,48 +195,6 @@ function renderSites(layer, sites, kind, kindLabel) {
       .addTo(layer);
   });
 }
-
-/* ---------- Country border glow ---------- */
-
-/* Own pane: above the flood circles (400), below the markers (600), and
-   click-through so it never blocks popups on the layers underneath. */
-const borderPane = map.createPane('borderPane');
-borderPane.style.zIndex = 450;
-borderPane.style.pointerEvents = 'none';
-
-/* Two wide, faint strokes build the halo; a thin crisp stroke sits on top.
-   The CSS drop-shadow on .border-line adds the soft falloff. */
-const BORDER_STROKES = [
-  { className: 'border-halo-wide', weight: 16, opacity: 0.12 },
-  { className: 'border-halo', weight: 9, opacity: 0.22 },
-  { className: 'border-line', weight: 2.2, opacity: 1 }
-];
-
-function buildBorderLayer(feature) {
-  return L.layerGroup(BORDER_STROKES.map(stroke => L.geoJSON(feature, {
-    pane: 'borderPane',
-    interactive: false,
-    style: { ...stroke, color: '#2f9bff', fill: false, lineJoin: 'round' }
-  })));
-}
-
-function loadBorder() {
-  fetch('bangladesh.geojson')
-    .then(response => {
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return response.json();
-    })
-    .then(feature => {
-      const border = buildBorderLayer(feature).addTo(map);
-      layersControl.addOverlay(border, 'Country border');
-
-      const bounds = L.geoJSON(feature).getBounds();
-      map.fitBounds(bounds, { padding: [24, 24] });
-      map.setMaxBounds(bounds.pad(0.4));
-    })
-    .catch(err => console.warn(`Country border not loaded (${err.message}).`));
-}
-
 /* ---------- Summary and entry point ---------- */
 
 function renderSummary(payload) {
@@ -279,5 +241,3 @@ fetch('sample_payload.json')
     `Could not load sample_payload.json (${err.message}). ` +
     'Generate it first and serve this folder with a local web server.'
   ));
-
-//loadBorder();
