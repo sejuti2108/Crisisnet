@@ -1,0 +1,473 @@
+{
+  "generated_at": "2026-10-17T15:12:35.145753+00:00",
+  "flood_risk_zones": [
+    {
+      "location_id": "barisal",
+      "name": "Barisal",
+      "lat": 22.7,
+      "lon": 90.36,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.93,
+      "flood_probability": 0.93,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "bhola",
+      "name": "Bhola",
+      "lat": 22.7,
+      "lon": 90.66,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.93,
+      "flood_probability": 0.93,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "bogra",
+      "name": "Bogra",
+      "lat": 24.88,
+      "lon": 89.36,
+      "data_source": "seasonal_average",
+      "flood_predicted": false,
+      "confidence": 0.54,
+      "flood_probability": 0.46,
+      "risk_label": "Low"
+    },
+    {
+      "location_id": "chandpur",
+      "name": "Chandpur",
+      "lat": 23.26,
+      "lon": 90.67,
+      "data_source": "seasonal_average",
+      "flood_predicted": false,
+      "confidence": 0.55,
+      "flood_probability": 0.45,
+      "risk_label": "Low"
+    },
+    {
+      "location_id": "chittagong_city-ambagan",
+      "name": "Chittagong (City-Ambagan)",
+      "lat": 22.35,
+      "lon": 91.8166,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.99,
+      "flood_probability": 0.99,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "chittagong_iap-patenga",
+      "name": "Chittagong (IAP-Patenga)",
+      "lat": 22.34,
+      "lon": 91.79,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.7,
+      "flood_probability": 0.7,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "comilla",
+      "name": "Comilla",
+      "lat": 23.48,
+      "lon": 91.19,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.83,
+      "flood_probability": 0.83,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "cox's_bazar",
+      "name": "Cox's Bazar",
+      "lat": 21.46,
+      "lon": 91.98,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.55,
+      "flood_probability": 0.55,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "dhaka",
+      "name": "Dhaka",
+      "lat": 23.78,
+      "lon": 90.39,
+      "data_source": "manual",
+      "flood_predicted": false,
+      "confidence": 0.9,
+      "flood_probability": 0.1,
+      "risk_label": "Low"
+    },
+    {
+      "location_id": "dinajpur",
+      "name": "Dinajpur",
+      "lat": 25.63,
+      "lon": 88.66,
+      "data_source": "seasonal_average",
+      "flood_predicted": false,
+      "confidence": 0.7,
+      "flood_probability": 0.3,
+      "risk_label": "Low"
+    },
+    {
+      "location_id": "faridpur",
+      "name": "Faridpur",
+      "lat": 23.61,
+      "lon": 89.84,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.66,
+      "flood_probability": 0.66,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "feni",
+      "name": "Feni",
+      "lat": 23.01,
+      "lon": 91.37,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.75,
+      "flood_probability": 0.75,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "hatiya",
+      "name": "Hatiya",
+      "lat": 22.29,
+      "lon": 91.13,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.73,
+      "flood_probability": 0.73,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "ishurdi",
+      "name": "Ishurdi",
+      "lat": 24.12,
+      "lon": 89.04,
+      "data_source": "seasonal_average",
+      "flood_predicted": false,
+      "confidence": 0.67,
+      "flood_probability": 0.33,
+      "risk_label": "Low"
+    },
+    {
+      "location_id": "jessore",
+      "name": "Jessore",
+      "lat": 23.17,
+      "lon": 89.22,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.66,
+      "flood_probability": 0.66,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "khepupara",
+      "name": "Khepupara",
+      "lat": 21.98,
+      "lon": 90.22,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.99,
+      "flood_probability": 0.99,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "khulna",
+      "name": "Khulna",
+      "lat": 22.8,
+      "lon": 89.58,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.7,
+      "flood_probability": 0.7,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "kutubdia",
+      "name": "Kutubdia",
+      "lat": 21.83,
+      "lon": 91.84,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.53,
+      "flood_probability": 0.53,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "madaripur",
+      "name": "Madaripur",
+      "lat": 23.17,
+      "lon": 90.18,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.6,
+      "flood_probability": 0.6,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "maijdee_court",
+      "name": "Maijdee Court",
+      "lat": 22.83,
+      "lon": 91.08,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.71,
+      "flood_probability": 0.71,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "mongla",
+      "name": "Mongla",
+      "lat": 22.43,
+      "lon": 89.66,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.91,
+      "flood_probability": 0.91,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "mymensingh",
+      "name": "Mymensingh",
+      "lat": 24.75,
+      "lon": 90.41,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.52,
+      "flood_probability": 0.52,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "patuakhali",
+      "name": "Patuakhali",
+      "lat": 22.36,
+      "lon": 90.34,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.94,
+      "flood_probability": 0.94,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "rajshahi",
+      "name": "Rajshahi",
+      "lat": 24.35,
+      "lon": 88.56,
+      "data_source": "manual",
+      "flood_predicted": true,
+      "confidence": 1.0,
+      "flood_probability": 1.0,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "rangamati",
+      "name": "Rangamati",
+      "lat": 22.67,
+      "lon": 92.2,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.63,
+      "flood_probability": 0.63,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "rangpur",
+      "name": "Rangpur",
+      "lat": 25.72,
+      "lon": 89.26,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.99,
+      "flood_probability": 0.99,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "sandwip",
+      "name": "Sandwip",
+      "lat": 22.5,
+      "lon": 91.46,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.74,
+      "flood_probability": 0.74,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "satkhira",
+      "name": "Satkhira",
+      "lat": 22.68,
+      "lon": 89.07,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.51,
+      "flood_probability": 0.51,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "sitakunda",
+      "name": "Sitakunda",
+      "lat": 22.64,
+      "lon": 91.64,
+      "data_source": "seasonal_average",
+      "flood_predicted": false,
+      "confidence": 0.54,
+      "flood_probability": 0.46,
+      "risk_label": "Low"
+    },
+    {
+      "location_id": "srimangal",
+      "name": "Srimangal",
+      "lat": 24.29,
+      "lon": 91.73,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.99,
+      "flood_probability": 0.99,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "sylhet",
+      "name": "Sylhet",
+      "lat": 24.88,
+      "lon": 91.93,
+      "data_source": "manual",
+      "flood_predicted": true,
+      "confidence": 1.0,
+      "flood_probability": 1.0,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "tangail",
+      "name": "Tangail",
+      "lat": 24.15,
+      "lon": 89.55,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.69,
+      "flood_probability": 0.69,
+      "risk_label": "High"
+    },
+    {
+      "location_id": "teknaf",
+      "name": "Teknaf",
+      "lat": 20.87,
+      "lon": 92.26,
+      "data_source": "seasonal_average",
+      "flood_predicted": true,
+      "confidence": 0.53,
+      "flood_probability": 0.53,
+      "risk_label": "High"
+    }
+  ],
+  "fire_incidents": [
+    {
+      "incident_id": "fire_001",
+      "name": "Garment factory, Savar",
+      "lat": 23.8583,
+      "lon": 90.2667,
+      "occupancy_type": "garment_factory",
+      "score": 95,
+      "label": "High Escalation Risk",
+      "factors": {
+        "material": 0,
+        "road_access": 30,
+        "density": 20,
+        "time_of_day": 10,
+        "occupancy_type": 35,
+        "compounding_penalty": 0
+      },
+      "floor_applied": false
+    },
+    {
+      "incident_id": "fire_002",
+      "name": "Chemical storage, Chattogram",
+      "lat": 22.3569,
+      "lon": 91.7832,
+      "occupancy_type": "chemical",
+      "score": 45,
+      "label": "High Escalation Risk",
+      "factors": {
+        "material": 0,
+        "road_access": 0,
+        "density": 0,
+        "time_of_day": 0,
+        "occupancy_type": 45,
+        "compounding_penalty": 0
+      },
+      "floor_applied": true
+    },
+    {
+      "incident_id": "fire_003",
+      "name": "Residential cluster, Rajshahi",
+      "lat": 24.3745,
+      "lon": 88.6042,
+      "occupancy_type": "residential",
+      "score": 55,
+      "label": "Medium Escalation Risk",
+      "factors": {
+        "material": 40,
+        "road_access": 15,
+        "density": 0,
+        "time_of_day": 0,
+        "occupancy_type": 0,
+        "compounding_penalty": 0
+      },
+      "floor_applied": false
+    }
+  ],
+  "shelters": [
+    {
+      "id": "shelter_001",
+      "name": "Rajshahi Central Shelter",
+      "lat": 24.4,
+      "lon": 88.58,
+      "nearest_station": "Rajshahi",
+      "risk_label": "High",
+      "flood_probability": 1.0
+    },
+    {
+      "id": "shelter_002",
+      "name": "Sylhet Community Shelter",
+      "lat": 24.9,
+      "lon": 91.87,
+      "nearest_station": "Sylhet",
+      "risk_label": "High",
+      "flood_probability": 1.0
+    },
+    {
+      "id": "shelter_003",
+      "name": "Cox's Bazar Cyclone Shelter",
+      "lat": 21.45,
+      "lon": 91.97,
+      "nearest_station": "Cox's Bazar",
+      "risk_label": "High",
+      "flood_probability": 0.55
+    }
+  ],
+  "warehouses": [
+    {
+      "id": "warehouse_001",
+      "name": "Dhaka Relief Warehouse",
+      "lat": 23.75,
+      "lon": 90.4,
+      "nearest_station": "Dhaka",
+      "risk_label": "Low",
+      "flood_probability": 0.1
+    },
+    {
+      "id": "warehouse_002",
+      "name": "Chattogram Relief Warehouse",
+      "lat": 22.34,
+      "lon": 91.82,
+      "nearest_station": "Chittagong (City-Ambagan)",
+      "risk_label": "High",
+      "flood_probability": 0.99
+    }
+  ]
+}

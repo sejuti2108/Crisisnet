@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CrisisNet map prototype</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="map.css">
+</head>
+<body>
+  <aside class="panel" aria-label="Map summary">
+    <h1>CrisisNet</h1>
+    <p class="panel-sub">Flood and fire overview</p>
+
+    <section aria-labelledby="summary-title">
+      <h2 id="summary-title">Current picture</h2>
+      <dl class="stats" id="stats">
+        <div><dt>Stations shown</dt><dd id="stat-total">-</dd></div>
+        <div><dt>High risk</dt><dd id="stat-high">-</dd></div>
+        <div><dt>Low risk</dt><dd id="stat-low">-</dd></div>
+        <div><dt>Admin-entered</dt><dd id="stat-manual">-</dd></div>
+        <div><dt>No data</dt><dd id="stat-error">-</dd></div>
+        <div><dt>Fire incidents</dt><dd id="stat-fire">-</dd></div>
+        <div><dt>High escalation</dt><dd id="stat-fire-high">-</dd></div>
+      </dl>
+      <p class="timestamp" id="timestamp">Loading data...</p>
+    </section>
+
+    <section aria-labelledby="legend-title">
+      <h2 id="legend-title">How to read the map</h2>
+      <div class="ramp" role="img" aria-label="Color scale from lower to higher flood probability"></div>
+      <div class="ramp-labels"><span>Lower probability</span><span>Higher probability</span></div>
+      <ul class="legend">
+        <li><span class="swatch swatch-solid"></span>Solid outline: conditions entered by an admin</li>
+        <li><span class="swatch swatch-dashed"></span>Dashed outline: seasonal baseline for this month</li>
+        <li><span class="swatch swatch-nodata"></span>Grey: no usable data for this station</li>
+        <li><span class="swatch swatch-fire"></span>Glowing marker: fire incident (red high, amber medium, grey standard)</li>
+        <li><span class="swatch swatch-shelter"></span>Square: shelter</li>
+        <li><span class="swatch swatch-warehouse"></span>Diamond: warehouse</li>
+      </ul>
+    </section>
+  </aside>
+
+  <div id="map" role="application" aria-label="Interactive map of Bangladesh"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="map.js"></script>
+</body>
+</html>
