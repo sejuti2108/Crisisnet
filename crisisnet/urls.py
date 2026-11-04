@@ -16,6 +16,7 @@ urlpatterns = [
     path("", include("accounts.urls")),
     path("shelters/", include("shelters.urls")),
     path("incidents/", include("incidents.urls")),
+    path("volunteers/", include("volunteers.urls")),
     path("live/", live_test),
     path("test-broadcast/", test_broadcast),
     path("coordinator/", dashboard, name="dashboard"),

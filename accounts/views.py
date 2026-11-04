@@ -103,15 +103,9 @@ def dashboard_shelter_manager(request):
 
 @role_required(User.Role.VOLUNTEER)
 def dashboard_volunteer(request):
-    """Volunteer dashboard placeholder (real view implemented in Phase 6)."""
-    return render(
-        request,
-        "accounts/dashboard_volunteer.html",
-        {
-            "user": request.user,
-            "role_title": "Volunteer",
-        },
-    )
+    """Volunteer dashboard delegating to volunteers app implementation."""
+    from volunteers.views import volunteer_dashboard
+    return volunteer_dashboard(request)
 
 
 @role_required(User.Role.ADMIN)

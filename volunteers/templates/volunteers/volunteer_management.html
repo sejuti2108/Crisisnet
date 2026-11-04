@@ -1,0 +1,180 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Volunteer Force Management — CrisisNet{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <h1 style="font-size: 1.8rem; color: var(--primary);">Volunteer Force Management</h1>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">Field readiness, skill matching, and emergency deployment coordination</p>
+  </div>
+  <a href="/admin/volunteers/volunteer/" class="btn" style="background:#e9ecef; color:var(--text); font-size:0.85rem;">
+    Manage in Admin &rarr;
+  </a>
+</div>
+
+<!-- Summary Metric Cards -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #28a745;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Available for Duty</div>
+    <div style="font-size: 2rem; font-weight: 700; color: #28a745; margin-top: 4px;">{{ available_count }}</div>
+    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Ready for immediate dispatch</div>
+  </div>
+
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #0077b6;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Currently Deployed</div>
+    <div style="font-size: 2rem; font-weight: 700; color: #0077b6; margin-top: 4px;">{{ deployed_count }}</div>
+    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">On duty at incident / shelter</div>
+  </div>
+
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #6c757d;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Unavailable / On Leave</div>
+    <div style="font-size: 2rem; font-weight: 700; color: #6c757d; margin-top: 4px;">{{ unavailable_count }}</div>
+    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Temporarily off-duty</div>
+  </div>
+
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid var(--primary);">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Total Volunteers</div>
+    <div style="font-size: 2rem; font-weight: 700; color: var(--primary); margin-top: 4px;">{{ total_count }}</div>
+    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">Registered field personnel</div>
+  </div>
+</div>
+
+<!-- Filters and Search -->
+<div class="card" style="padding: 16px 20px; margin-bottom: 20px;">
+  <form method="get" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
+    <div style="flex: 1; min-width: 200px;">
+      <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px;">Search Volunteer / Skill:</label>
+      <input type="text" name="q" value="{{ search_query }}" placeholder="Search by name, skills, or phone..."
+             style="width: 100%; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border); font-size: 0.9rem;">
+    </div>
+
+    <div>
+      <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px;">Readiness Status:</label>
+      <select name="status" style="padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border);">
+        <option value="">All Statuses</option>
+        {% for val, label in status_choices %}
+          <option value="{{ val }}" {% if val == selected_status %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px;">Assigned Incident:</label>
+      <select name="incident" style="padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border);">
+        <option value="">All Incidents</option>
+        {% for inc in active_incidents %}
+          <option value="{{ inc.id }}" {% if inc.id|stringformat:"s" == selected_incident %}selected{% endif %}>{{ inc.title }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 4px;">Assigned Shelter:</label>
+      <select name="shelter" style="padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border);">
+        <option value="">All Shelters</option>
+        {% for sh in active_shelters %}
+          <option value="{{ sh.id }}" {% if sh.id|stringformat:"s" == selected_shelter %}selected{% endif %}>{{ sh.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="padding: 6px 14px;">Filter</button>
+    <a href="{% url 'volunteer_management' %}" class="btn" style="background:#e9ecef; color:var(--text); padding: 6px 12px;">Reset</a>
+  </form>
+</div>
+
+<!-- Volunteer Roster Table -->
+<div class="card" style="padding: 0; overflow: hidden;">
+  <div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+      <thead>
+        <tr style="background: #1f3864; color: white; text-align: left;">
+          <th style="padding: 12px 14px;">Volunteer</th>
+          <th style="padding: 12px 14px;">Contact</th>
+          <th style="padding: 12px 14px;">Skills & Capabilities</th>
+          <th style="padding: 12px 14px;">Readiness</th>
+          <th style="padding: 12px 14px;">Current Assignment</th>
+          <th style="padding: 12px 14px; min-width: 320px;">Deploy / Reassign</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for vol in volunteers %}
+          <tr style="border-bottom: 1px solid var(--border); vertical-align: top;">
+            <td style="padding: 12px 14px;">
+              <strong style="color: var(--primary);">{{ vol.user.get_full_name|default:vol.user.username }}</strong>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">@{{ vol.user.username }} &bull; {{ vol.user.email|default:"No email" }}</div>
+            </td>
+            <td style="padding: 12px 14px; font-size: 0.85rem;">
+              {{ vol.phone|default:"—" }}
+            </td>
+            <td style="padding: 12px 14px; font-size: 0.85rem;">
+              <span style="background: #f1f3f5; padding: 2px 8px; border-radius: 4px; display: inline-block;">{{ vol.skills }}</span>
+            </td>
+            <td style="padding: 12px 14px;">
+              <span class="role-badge" style="
+                {% if vol.availability == 'available' %}background: #28a745; color: white;
+                {% elif vol.availability == 'deployed' %}background: #0077b6; color: white;
+                {% else %}background: #6c757d; color: white;
+                {% endif %}
+                font-size: 0.75rem; text-transform: uppercase;">
+                {{ vol.get_availability_display }}
+              </span>
+            </td>
+            <td style="padding: 12px 14px; font-size: 0.85rem;">
+              {% if vol.assigned_incident %}
+                <div>🚨 <strong>Incident:</strong> <a href="{% url 'incident_detail' vol.assigned_incident.id %}" style="color:var(--primary);">{{ vol.assigned_incident.title }}</a></div>
+              {% endif %}
+              {% if vol.assigned_shelter %}
+                <div style="margin-top: 4px;">⛺ <strong>Shelter:</strong> {{ vol.assigned_shelter.name }}</div>
+              {% endif %}
+              {% if not vol.assigned_incident and not vol.assigned_shelter %}
+                <span style="color: var(--text-muted); font-style: italic;">No active deployment</span>
+              {% endif %}
+            </td>
+            <td style="padding: 12px 14px;">
+              <!-- Quick Assignment Form -->
+              <form action="{% url 'assign_volunteer' vol.id %}" method="post" style="display: flex; flex-direction: column; gap: 6px;">
+                {% csrf_token %}
+                <div style="display: flex; gap: 6px;">
+                  <select name="assigned_incident" style="flex: 1; padding: 4px 6px; font-size: 0.8rem; border-radius: 4px; border: 1px solid var(--border);">
+                    <option value="">-- No Incident --</option>
+                    {% for inc in active_incidents %}
+                      <option value="{{ inc.id }}" {% if vol.assigned_incident_id == inc.id %}selected{% endif %}>{{ inc.title }}</option>
+                    {% endfor %}
+                  </select>
+
+                  <select name="assigned_shelter" style="flex: 1; padding: 4px 6px; font-size: 0.8rem; border-radius: 4px; border: 1px solid var(--border);">
+                    <option value="">-- No Shelter --</option>
+                    {% for sh in active_shelters %}
+                      <option value="{{ sh.id }}" {% if vol.assigned_shelter_id == sh.id %}selected{% endif %}>{{ sh.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div style="display: flex; gap: 6px; align-items: center;">
+                  <select name="availability" style="flex: 1; padding: 4px 6px; font-size: 0.8rem; border-radius: 4px; border: 1px solid var(--border);">
+                    {% for val, label in status_choices %}
+                      <option value="{{ val }}" {% if vol.availability == val %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                  </select>
+
+                  <button type="submit" class="btn btn-primary" style="font-size: 0.8rem; padding: 4px 10px;">
+                    Update
+                  </button>
+                </div>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 32px; color: var(--text-muted);">
+              No volunteers registered matching the criteria.
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
