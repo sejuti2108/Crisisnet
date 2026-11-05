@@ -248,3 +248,132 @@ class AdminAccountCreationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertFalse(User.objects.filter(username="coord_mismatch").exists())
         self.assertContains(response, "Passwords do not match")
+
+
+class AdminDashboardOverviewTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.password = "AdminSecret123!"
+        self.admin = User.objects.create_user(
+            username="main_admin",
+            password=self.password,
+            email="main_admin@crisisnet.org",
+            role=User.Role.ADMIN,
+        )
+        self.coord = User.objects.create_user(
+            username="coord_user",
+            password=self.password,
+            role=User.Role.COORDINATOR,
+        )
+        self.shelter_mgr = User.objects.create_user(
+            username="shelter_mgr",
+            password=self.password,
+            role=User.Role.SHELTER_MANAGER,
+        )
+        self.volunteer = User.objects.create_user(
+            username="vol_user",
+            password=self.password,
+            role=User.Role.VOLUNTEER,
+        )
+
+        from shelters.models import Shelter
+        from incidents.models import Incident
+        from volunteers.models import Volunteer
+        from warehouses.models import Warehouse, InventoryItem
+        from requests_app.models import Request
+
+        self.shelter = Shelter.objects.create(
+            name="Central Relief Camp",
+            location="Sylhet Sadar",
+            latitude=24.8949,
+            longitude=91.8687,
+            capacity=300,
+            current_occupancy=180,
+            status=Shelter.Status.OPEN,
+            manager=self.shelter_mgr,
+        )
+        self.incident = Incident.objects.create(
+            title="Flash Flood 2026",
+            incident_type=Incident.IncidentType.FLOOD,
+            description="Surma river overflowing",
+            location="Sylhet",
+            latitude=24.8949,
+            longitude=91.8687,
+            severity=Incident.Severity.CRITICAL,
+            status=Incident.Status.ACTIVE,
+        )
+        self.vol_user2 = User.objects.create_user(
+            username="vol_user2",
+            password=self.password,
+            role=User.Role.VOLUNTEER,
+        )
+        self.vol_deployed = Volunteer.objects.create(
+            user=self.volunteer,
+            phone="01700000000",
+            skills="First Aid, Boat Rescue",
+            assigned_shelter=self.shelter,
+        )
+        self.vol_available = Volunteer.objects.create(
+            user=self.vol_user2,
+            phone="01800000000",
+            skills="Logistics",
+            availability=Volunteer.Availability.AVAILABLE,
+        )
+        self.warehouse = Warehouse.objects.create(
+            name="Sylhet Central Depot",
+            latitude=24.8900,
+            longitude=91.8700,
+        )
+        self.inventory_item = InventoryItem.objects.create(
+            warehouse=self.warehouse,
+            item_name="Water Purification Tablets",
+            quantity=5000,
+            unit="strips",
+        )
+        self.request = Request.objects.create(
+            shelter_name=self.shelter.name,
+            item_name="Water Purification Tablets",
+            quantity=1000,
+            status=Request.Status.PENDING,
+        )
+
+    def test_admin_dashboard_requires_login(self):
+        response = self.client.get(reverse("dashboard_admin"))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("login"), response.url)
+
+    def test_non_admin_cannot_access_dashboard(self):
+        self.client.login(username="vol_user", password=self.password)
+        response = self.client.get(reverse("dashboard_admin"))
+        self.assertEqual(response.status_code, 403)
+
+    def test_admin_dashboard_aggregates_and_renders_metrics(self):
+        self.client.login(username="main_admin", password=self.password)
+        response = self.client.get(reverse("dashboard_admin"))
+        self.assertEqual(response.status_code, 200)
+
+        # Context aggregations
+        self.assertEqual(response.context["users_total"], 5)
+        self.assertEqual(response.context["users_by_role"][User.Role.ADMIN], 1)
+        self.assertEqual(response.context["users_by_role"][User.Role.VOLUNTEER], 2)
+        self.assertEqual(response.context["shelters_total"], 1)
+        self.assertEqual(response.context["shelter_capacity_total"], 300)
+        self.assertEqual(response.context["shelter_occupancy_total"], 180)
+        self.assertEqual(response.context["shelters_open"], 1)
+        self.assertEqual(response.context["incidents_total"], 1)
+        self.assertEqual(response.context["incidents_active"], 1)
+        self.assertEqual(response.context["incidents_critical"], 1)
+        self.assertEqual(response.context["volunteers_total"], 2)
+        self.assertEqual(response.context["volunteers_available"], 1)
+        self.assertEqual(response.context["volunteers_deployed"], 1)
+        self.assertEqual(response.context["warehouses_total"], 1)
+        self.assertEqual(response.context["total_stock_units"], 5000)
+        self.assertEqual(response.context["requests_total"], 1)
+        self.assertEqual(response.context["requests_pending"], 1)
+
+        # Content rendering
+        self.assertContains(response, "Disaster Operations Command Center")
+        self.assertContains(response, "Central Relief Camp")
+        self.assertContains(response, "Flash Flood 2026")
+        self.assertContains(response, "Sylhet Central Depot")
+        self.assertContains(response, "Water Purification Tablets")
