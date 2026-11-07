@@ -1,0 +1,323 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Operations Command Center — Admin Dashboard | CrisisNet{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <h1 style="font-size: 1.8rem; color: var(--primary);">Disaster Operations Command Center</h1>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">System-wide real-time operational overview across all relief divisions</p>
+  </div>
+  <div style="display: flex; gap: 8px;">
+    <a href="{% url 'admin_create_account' %}" class="btn btn-primary" style="font-size: 0.85rem;">
+      + Provision Account
+    </a>
+    <a href="/admin/" class="btn" style="background:#e9ecef; color:var(--text); font-size:0.85rem;">
+      Django Admin &rarr;
+    </a>
+  </div>
+</div>
+
+<!-- Primary Metric Counters -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 24px;">
+  <!-- Users -->
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid var(--primary); padding: 16px;">
+    <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Total Users</div>
+    <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-top: 2px;">{{ users_total }}</div>
+    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">{{ users_by_role.shelter_manager }} Managers &bull; {{ users_by_role.coordinator }} Coords</div>
+  </div>
+
+  <!-- Shelters -->
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #0077b6; padding: 16px;">
+    <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Shelters (Open)</div>
+    <div style="font-size: 1.8rem; font-weight: 700; color: #0077b6; margin-top: 2px;">{{ shelters_open }} <span style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">/ {{ shelters_total }}</span></div>
+    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Occupancy: <strong>{{ shelter_occupancy_total }} / {{ shelter_capacity_total }}</strong></div>
+  </div>
+
+  <!-- Incidents -->
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #dc3545; padding: 16px;">
+    <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Active Emergencies</div>
+    <div style="font-size: 1.8rem; font-weight: 700; color: #dc3545; margin-top: 2px;">{{ incidents_active }}</div>
+    <div style="font-size: 0.75rem; color: #dc3545; margin-top: 4px;"><strong>{{ incidents_critical }}</strong> Critical Alerts</div>
+  </div>
+
+  <!-- Volunteers -->
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #28a745; padding: 16px;">
+    <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Available Volunteers</div>
+    <div style="font-size: 1.8rem; font-weight: 700; color: #28a745; margin-top: 2px;">{{ volunteers_available }} <span style="font-size: 1rem; color: var(--text-muted); font-weight: 400;">/ {{ volunteers_total }}</span></div>
+    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">{{ volunteers_deployed }} Deployed on Duty</div>
+  </div>
+
+  <!-- Warehouses -->
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #6f42c1; padding: 16px;">
+    <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Warehouses</div>
+    <div style="font-size: 1.8rem; font-weight: 700; color: #6f42c1; margin-top: 2px;">{{ warehouses_total }}</div>
+    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">{{ total_stock_units }} Total Stock Units</div>
+  </div>
+
+  <!-- Requests -->
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #fd7e14; padding: 16px;">
+    <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Pending Requests</div>
+    <div style="font-size: 1.8rem; font-weight: 700; color: #fd7e14; margin-top: 2px;">{{ requests_pending }}</div>
+    <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">{{ requests_dispatched }} Dispatched &bull; {{ requests_total }} Total</div>
+  </div>
+</div>
+
+<!-- Section 1: Active Operations (Incidents & Shelters) -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+  <!-- Active Incidents -->
+  <div class="card" style="margin-bottom: 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+      <h3 style="font-size: 1.15rem; color: var(--primary);">🚨 Active Emergency Incidents</h3>
+      <a href="{% url 'incident_list' %}" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">View All &rarr;</a>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+        <thead>
+          <tr style="background: #f1f3f5; text-align: left;">
+            <th style="padding: 6px 8px;">Incident</th>
+            <th style="padding: 6px 8px;">Severity</th>
+            <th style="padding: 6px 8px;">Status</th>
+            <th style="padding: 6px 8px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for inc in recent_incidents %}
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 8px 8px;">
+                <strong>{{ inc.title }}</strong>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">📍 {{ inc.location }}</div>
+              </td>
+              <td style="padding: 8px 8px;">
+                <span class="role-badge" style="{% if inc.severity == 'critical' %}background:#dc3545;{% elif inc.severity == 'high' %}background:#e63946;{% else %}background:#ffc107;color:#212529;{% endif %} font-size:0.7rem;">
+                  {{ inc.get_severity_display }}
+                </span>
+              </td>
+              <td style="padding: 8px 8px;">
+                <span class="role-badge" style="{% if inc.status == 'active' %}background:#dc3545;{% else %}background:#28a745;{% endif %} font-size:0.7rem;">
+                  {{ inc.get_status_display }}
+                </span>
+              </td>
+              <td style="padding: 8px 8px;">
+                <a href="{% url 'incident_detail' inc.id %}" style="color: var(--primary); font-size: 0.8rem;">Details</a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4" style="text-align: center; padding: 16px; color: var(--text-muted);">No incidents recorded.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Shelters Capacity & Status -->
+  <div class="card" style="margin-bottom: 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+      <h3 style="font-size: 1.15rem; color: var(--primary);">⛺ Shelter Operations</h3>
+      <a href="/admin/shelters/shelter/" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">Manage Shelters &rarr;</a>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+        <thead>
+          <tr style="background: #f1f3f5; text-align: left;">
+            <th style="padding: 6px 8px;">Shelter</th>
+            <th style="padding: 6px 8px;">Occupancy</th>
+            <th style="padding: 6px 8px;">Status</th>
+            <th style="padding: 6px 8px;">Manager</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sh in recent_shelters %}
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 8px 8px;">
+                <strong>{{ sh.name }}</strong>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">📍 {{ sh.location }}</div>
+              </td>
+              <td style="padding: 8px 8px;">
+                {{ sh.current_occupancy }} / {{ sh.capacity }}
+                <div style="width: 80px; background: #e9ecef; height: 4px; border-radius: 2px; margin-top: 3px;">
+                  <div style="width: {{ sh.occupancy_percentage }}%; background: {% if sh.occupancy_percentage > 90 %}#dc3545{% else %}#28a745{% endif %}; height: 100%;"></div>
+                </div>
+              </td>
+              <td style="padding: 8px 8px;">
+                <span class="role-badge" style="background: {% if sh.status == 'open' %}#28a745{% elif sh.status == 'full' %}#dc3545{% else %}#6c757d{% endif %}; font-size:0.7rem;">
+                  {{ sh.get_status_display }}
+                </span>
+              </td>
+              <td style="padding: 8px 8px; color: var(--text-muted);">
+                {{ sh.manager.username|default:"—" }}
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4" style="text-align: center; padding: 16px; color: var(--text-muted);">No shelters configured yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: Logistics & Field Force (Warehouses, Requests, and Volunteers) -->
+<div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; margin-bottom: 24px;">
+  <!-- Supply Request Pipeline -->
+  <div class="card" style="margin-bottom: 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+      <h3 style="font-size: 1.15rem; color: var(--primary);">📦 Relief Request Pipeline</h3>
+      <a href="/coordinator/" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">Coordinator Hub &rarr;</a>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+        <thead>
+          <tr style="background: #1f3864; color: white; text-align: left;">
+            <th style="padding: 6px 8px;">ID</th>
+            <th style="padding: 6px 8px;">Shelter</th>
+            <th style="padding: 6px 8px;">Item & Qty</th>
+            <th style="padding: 6px 8px;">Status</th>
+            <th style="padding: 6px 8px;">Warehouse</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in recent_requests %}
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 8px 8px;">#{{ r.id }}</td>
+              <td style="padding: 8px 8px;"><strong>{{ r.shelter_name }}</strong></td>
+              <td style="padding: 8px 8px;">{{ r.item_name }} &times; {{ r.quantity }}</td>
+              <td style="padding: 8px 8px;">
+                <span class="role-badge" style="{% if r.status == 'pending' %}background:#ffc107;color:#212529;{% elif r.status == 'approved' %}background:#0077b6;{% elif r.status == 'dispatched' %}background:#28a745;{% else %}background:#dc3545;{% endif %} font-size:0.7rem;">
+                  {{ r.get_status_display }}
+                </span>
+              </td>
+              <td style="padding: 8px 8px; color: var(--text-muted);">
+                {{ r.fulfilled_by.name|default:"—" }}
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" style="text-align: center; padding: 16px; color: var(--text-muted);">No requests recorded yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Volunteer Field Readiness -->
+  <div class="card" style="margin-bottom: 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+      <h3 style="font-size: 1.15rem; color: var(--primary);">🛡️ Volunteer Force</h3>
+      <a href="{% url 'volunteer_management' %}" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">Deployment Hub &rarr;</a>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+        <thead>
+          <tr style="background: #f1f3f5; text-align: left;">
+            <th style="padding: 6px 8px;">Volunteer</th>
+            <th style="padding: 6px 8px;">Readiness</th>
+            <th style="padding: 6px 8px;">Assignment</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in recent_volunteers %}
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 8px 8px;">
+                <strong>{{ v.user.get_full_name|default:v.user.username }}</strong>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">{{ v.skills|truncatechars:30 }}</div>
+              </td>
+              <td style="padding: 8px 8px;">
+                <span class="role-badge" style="{% if v.availability == 'available' %}background:#28a745;{% elif v.availability == 'deployed' %}background:#0077b6;{% else %}background:#6c757d;{% endif %} font-size:0.7rem;">
+                  {{ v.get_availability_display }}
+                </span>
+              </td>
+              <td style="padding: 8px 8px; font-size: 0.8rem;">
+                {% if v.assigned_incident %}
+                  🚨 {{ v.assigned_incident.title|truncatechars:20 }}
+                {% elif v.assigned_shelter %}
+                  ⛺ {{ v.assigned_shelter.name|truncatechars:20 }}
+                {% else %}
+                  <span style="color:var(--text-muted); font-style:italic;">Standby</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="3" style="text-align: center; padding: 16px; color: var(--text-muted);">No volunteers registered yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: Warehouse Network & User Access Control -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+  <!-- Warehouses & Stock Levels -->
+  <div class="card" style="margin-bottom: 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+      <h3 style="font-size: 1.15rem; color: var(--primary);">🏢 Warehouses & Inventory</h3>
+      <a href="/admin/warehouses/warehouse/" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">Manage Warehouses &rarr;</a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+      {% for wh in warehouses_list %}
+        <div style="background: #f8f9fa; border: 1px solid var(--border); border-radius: 6px; padding: 10px;">
+          <strong style="color: var(--primary); font-size: 0.9rem;">{{ wh.name }}</strong>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">📍 Coordinates: ({{ wh.latitude }}, {{ wh.longitude }})</div>
+          <div style="margin-top: 6px; font-size: 0.8rem;">
+            <strong>Inventory Stock:</strong>
+            <ul style="margin: 4px 0 0 16px; padding: 0; font-size: 0.75rem;">
+              {% for itm in wh.items.all %}
+                <li>{{ itm.item_name }}: <strong>{{ itm.quantity }} {{ itm.unit }}</strong></li>
+              {% empty %}
+                <li style="color:var(--text-muted);">No stock recorded</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% empty %}
+        <p style="color: var(--text-muted); font-size: 0.85rem;">No warehouses registered yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Users and Roles Distribution -->
+  <div class="card" style="margin-bottom: 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+      <h3 style="font-size: 1.15rem; color: var(--primary);">👥 Personnel & Role Distribution</h3>
+      <a href="{% url 'admin_create_account' %}" style="font-size: 0.8rem; color: var(--primary); text-decoration: none;">+ Add Account</a>
+    </div>
+
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;">
+      <span class="role-badge badge-admin" style="padding: 4px 10px;">Admins: {{ users_by_role.admin }}</span>
+      <span class="role-badge badge-coordinator" style="padding: 4px 10px;">Coordinators: {{ users_by_role.coordinator }}</span>
+      <span class="role-badge badge-shelter_manager" style="padding: 4px 10px;">Managers: {{ users_by_role.shelter_manager }}</span>
+      <span class="role-badge badge-volunteer" style="padding: 4px 10px;">Volunteers: {{ users_by_role.volunteer }}</span>
+    </div>
+
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+        <thead>
+          <tr style="background: #f1f3f5; text-align: left;">
+            <th style="padding: 6px 8px;">User</th>
+            <th style="padding: 6px 8px;">Email</th>
+            <th style="padding: 6px 8px;">Role</th>
+            <th style="padding: 6px 8px;">Joined</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in recent_users %}
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 6px 8px;"><strong>{{ u.username }}</strong></td>
+              <td style="padding: 6px 8px; color: var(--text-muted);">{{ u.email|default:"—" }}</td>
+              <td style="padding: 6px 8px;">
+                <span class="role-badge badge-{{ u.role }}" style="font-size: 0.7rem;">{{ u.get_role_display }}</span>
+              </td>
+              <td style="padding: 6px 8px; font-size: 0.75rem; color: var(--text-muted);">{{ u.date_joined|date:"M d" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

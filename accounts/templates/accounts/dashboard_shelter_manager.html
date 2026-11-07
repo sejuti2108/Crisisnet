@@ -1,0 +1,22 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Shelter Manager Dashboard — CrisisNet{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+      <h1 style="font-size: 1.8rem; color: var(--primary);">Shelter Manager Dashboard</h1>
+      <p style="color: var(--text-muted);">Manage assigned shelter status, monitor capacity, and request relief supplies</p>
+    </div>
+    <span class="role-badge badge-shelter_manager" style="font-size: 0.9rem; padding: 6px 14px;">Shelter Manager</span>
+  </div>
+
+  <div style="background: #eef7f6; border-left: 4px solid #2a9d8f; padding: 16px; border-radius: 4px;">
+    <p><strong>Logged in as:</strong> {{ user.username }} ({{ user.email|default:"No email registered" }})</p>
+    <p style="margin-top: 8px; color: var(--text-muted);">
+      Your assigned shelter details, live occupancy tracker, and relief request pipeline will appear here.
+    </p>
+  </div>
+</div>
+{% endblock %}

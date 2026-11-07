@@ -1,0 +1,220 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Shelter Manager Dashboard — CrisisNet{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <h1 style="font-size: 1.8rem; color: var(--primary);">Shelter Manager Operations</h1>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">Live shelter monitoring, occupancy tracking, and emergency supply requests</p>
+  </div>
+  <span class="role-badge badge-shelter_manager" style="font-size: 0.9rem; padding: 6px 14px;">Shelter Manager</span>
+</div>
+
+{% if not current_shelter %}
+  <div class="card" style="text-align: center; padding: 48px 24px;">
+    <div style="font-size: 3rem; margin-bottom: 12px;">⛺</div>
+    <h2 style="color: var(--primary); margin-bottom: 8px;">No Assigned Shelter</h2>
+    <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 20px auto;">
+      Your user account (<strong>{{ user.username }}</strong>) is not currently assigned to manage any emergency shelter.
+      Please contact a System Administrator to assign a shelter to your profile.
+    </p>
+  </div>
+{% else %}
+  {% if user_shelters.count > 1 %}
+    <div class="card" style="padding: 14px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+      <label for="shelter_switcher" style="font-weight: 600; font-size: 0.9rem;">Switch Shelter:</label>
+      <select id="shelter_switcher" onchange="window.location.href='?shelter_id=' + this.value" style="padding: 6px 12px; border-radius: 4px; border: 1px solid var(--border);">
+        {% for s in user_shelters %}
+          <option value="{{ s.id }}" {% if s.id == current_shelter.id %}selected{% endif %}>{{ s.name }} ({{ s.location }})</option>
+        {% endfor %}
+      </select>
+    </div>
+  {% endif %}
+
+  <!-- Shelter Summary Cards -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px;">
+    <div class="card" style="margin-bottom: 0; border-top: 4px solid var(--primary);">
+      <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Shelter Name & Status</div>
+      <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-top: 4px;">{{ current_shelter.name }}</div>
+      <div style="margin-top: 6px;">
+        <span class="role-badge" style="background: {% if current_shelter.status == 'open' %}#28a745{% elif current_shelter.status == 'full' %}#dc3545{% else %}#6c757d{% endif %}; font-size:0.75rem;">
+          {{ current_shelter.get_status_display }}
+        </span>
+      </div>
+      <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">📍 {{ current_shelter.location }} ({{ current_shelter.latitude }}, {{ current_shelter.longitude }})</div>
+    </div>
+
+    <div class="card" style="margin-bottom: 0; border-top: 4px solid #0077b6;">
+      <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Total Capacity</div>
+      <div style="font-size: 1.8rem; font-weight: 700; color: #0077b6; margin-top: 4px;">{{ current_shelter.capacity }}</div>
+      <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">Maximum individuals</div>
+    </div>
+
+    <div class="card" style="margin-bottom: 0; border-top: 4px solid #e76f51;">
+      <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Current Occupancy</div>
+      <div style="font-size: 1.8rem; font-weight: 700; color: #e76f51; margin-top: 4px;">{{ current_shelter.current_occupancy }}</div>
+      <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">Available Beds: <strong>{{ current_shelter.available_capacity }}</strong></div>
+    </div>
+
+    <div class="card" style="margin-bottom: 0; border-top: 4px solid #2a9d8f;">
+      <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Occupancy Rate</div>
+      <div style="font-size: 1.8rem; font-weight: 700; color: #2a9d8f; margin-top: 4px;">{{ current_shelter.occupancy_percentage }}%</div>
+      <div style="width: 100%; background: #e9ecef; border-radius: 4px; height: 8px; margin-top: 10px; overflow: hidden;">
+        <div style="width: {{ current_shelter.occupancy_percentage }}%; background: {% if current_shelter.occupancy_percentage > 90 %}#dc3545{% elif current_shelter.occupancy_percentage > 75 %}#ffc107{% else %}#28a745{% endif %}; height: 100%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Operational Actions & Tables -->
+  <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 24px; align-items: start;">
+    <!-- Left Column: Actions -->
+    <div>
+      <!-- Live Occupancy Update Form -->
+      <div class="card">
+        <h3 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+          Update Occupancy
+        </h3>
+        <form action="{% url 'update_shelter_occupancy' current_shelter.id %}" method="post">
+          {% csrf_token %}
+          <div style="margin-bottom: 14px;">
+            <label for="id_current_occupancy" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px;">
+              Current Occupant Count:
+            </label>
+            {{ occupancy_form.current_occupancy }}
+            <small style="color: var(--text-muted); display: block; margin-top: 4px;">Must be between 0 and {{ current_shelter.capacity }}.</small>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 8px 12px;">Save Occupancy</button>
+        </form>
+      </div>
+
+      <!-- Submit Supply Request Form -->
+      <div class="card">
+        <h3 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+          Request Relief Supplies
+        </h3>
+        <form action="{% url 'create_supply_request' current_shelter.id %}" method="post">
+          {% csrf_token %}
+          <div style="margin-bottom: 14px;">
+            <label for="id_item_name" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px;">
+              Item / Provision Name:
+            </label>
+            {{ request_form.item_name }}
+            <datalist id="common_items_list">
+              {% for val, label in request_form.DEFAULT_ITEMS %}
+                <option value="{{ val }}">
+              {% endfor %}
+            </datalist>
+            <small style="color: var(--text-muted); display: block; margin-top: 4px;">{{ request_form.item_name.help_text }}</small>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label for="id_quantity" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px;">
+              Required Quantity:
+            </label>
+            {{ request_form.quantity }}
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px 12px; background: #0077b6;">
+            Submit Supply Request
+          </button>
+        </form>
+      </div>
+
+      <!-- Regional Warehouse Stock Available -->
+      <div class="card">
+        <h3 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+          Regional Warehouse Stock
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Available supplies in nearby warehouses:</p>
+        <div style="max-height: 240px; overflow-y: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+            <thead>
+              <tr style="background: #f1f3f5; text-align: left;">
+                <th style="padding: 6px 8px; border-bottom: 1px solid var(--border);">Warehouse</th>
+                <th style="padding: 6px 8px; border-bottom: 1px solid var(--border);">Item</th>
+                <th style="padding: 6px 8px; border-bottom: 1px solid var(--border);">Available</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for s in regional_stock %}
+                <tr>
+                  <td style="padding: 6px 8px; border-bottom: 1px solid #eee;">{{ s.warehouse.name }}</td>
+                  <td style="padding: 6px 8px; border-bottom: 1px solid #eee;"><strong>{{ s.item_name }}</strong></td>
+                  <td style="padding: 6px 8px; border-bottom: 1px solid #eee;">{{ s.quantity }} {{ s.unit }}</td>
+                </tr>
+              {% empty %}
+                <tr><td colspan="3" style="padding: 12px; text-align: center; color: var(--text-muted);">No warehouse stock reported yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Request Pipeline -->
+    <div>
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+          <h3 style="font-size: 1.2rem; color: var(--primary);">Relief Request History</h3>
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Shelter: <strong>{{ current_shelter.name }}</strong></span>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+            <thead>
+              <tr style="background: #1f3864; color: white; text-align: left;">
+                <th style="padding: 10px 12px;">ID</th>
+                <th style="padding: 10px 12px;">Requested Item</th>
+                <th style="padding: 10px 12px;">Qty</th>
+                <th style="padding: 10px 12px;">Status</th>
+                <th style="padding: 10px 12px;">Fulfilled By</th>
+                <th style="padding: 10px 12px;">Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for req in requests_history %}
+                <tr style="border-bottom: 1px solid var(--border);">
+                  <td style="padding: 10px 12px;">#{{ req.id }}</td>
+                  <td style="padding: 10px 12px;"><strong>{{ req.item_name }}</strong></td>
+                  <td style="padding: 10px 12px;">{{ req.quantity }}</td>
+                  <td style="padding: 10px 12px;">
+                    <span class="role-badge" style="
+                      {% if req.status == 'pending' %}background: #ffc107; color: #212529;
+                      {% elif req.status == 'approved' %}background: #0077b6; color: white;
+                      {% elif req.status == 'dispatched' %}background: #28a745; color: white;
+                      {% elif req.status == 'rejected' %}background: #dc3545; color: white;
+                      {% endif %}
+                      font-size: 0.75rem; text-transform: uppercase;">
+                      {{ req.get_status_display }}
+                    </span>
+                  </td>
+                  <td style="padding: 10px 12px; color: var(--text-muted);">{{ req.fulfilled_by.name|default:"—" }}</td>
+                  <td style="padding: 10px 12px; font-size: 0.8rem; color: var(--text-muted);">{{ req.created_at|date:"M d, H:i" }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 32px; color: var(--text-muted);">
+                    No supply requests submitted yet for this shelter. Use the request form on the left to submit a request.
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<style>
+  .form-control {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+</style>
+{% endblock %}

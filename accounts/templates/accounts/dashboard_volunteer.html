@@ -1,0 +1,22 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Volunteer Dashboard — CrisisNet{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+      <h1 style="font-size: 1.8rem; color: var(--primary);">Volunteer Dashboard</h1>
+      <p style="color: var(--text-muted);">View operational notifications, active deployments, and update availability status</p>
+    </div>
+    <span class="role-badge badge-volunteer" style="font-size: 0.9rem; padding: 6px 14px;">Volunteer</span>
+  </div>
+
+  <div style="background: #fdf2ee; border-left: 4px solid #e76f51; padding: 16px; border-radius: 4px;">
+    <p><strong>Volunteer:</strong> {{ user.get_full_name|default:user.username }}</p>
+    <p style="margin-top: 8px; color: var(--text-muted);">
+      Your field assignments, emergency alerts, and duty schedule will be displayed here.
+    </p>
+  </div>
+</div>
+{% endblock %}

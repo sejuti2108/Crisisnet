@@ -1,0 +1,17 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Warehouse Coordinator Dashboard — CrisisNet{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+      <h1 style="font-size: 1.8rem; color: var(--primary);">Warehouse Coordinator Dashboard</h1>
+      <p style="color: var(--text-muted);">Manage inventory stock, allocate supplies, and dispatch relief orders</p>
+    </div>
+    <span class="role-badge badge-coordinator" style="font-size: 0.9rem; padding: 6px 14px;">Warehouse Coordinator</span>
+  </div>
+
+  <p>Warehouse coordination interface is integrated with the supply request engine.</p>
+</div>
+{% endblock %}

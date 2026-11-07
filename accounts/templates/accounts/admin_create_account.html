@@ -1,0 +1,60 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Create Operator Account — CrisisNet{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 20px auto;">
+  <div class="card" style="padding: 32px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <div>
+        <h2 style="color: var(--primary); font-size: 1.5rem;">Create Operator Account</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Provision accounts for Coordinators and Shelter Managers</p>
+      </div>
+      <a href="{% url 'dashboard_admin' %}" class="btn" style="background:#e9ecef; color:var(--text); font-size:0.85rem;">&larr; Back to Dashboard</a>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div style="margin-bottom: 18px;">
+          <label for="{{ field.id_for_label }}" style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem;">
+            {{ field.label }}
+            {% if field.field.required %}<span style="color:var(--accent);">*</span>{% endif %}
+          </label>
+          {{ field }}
+          {% if field.help_text %}
+            <small style="display: block; color: var(--text-muted); margin-top: 4px; font-size: 0.8rem;">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div style="color: var(--accent); font-size: 0.85rem; margin-top: 4px;">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <div style="margin-top: 24px; display: flex; gap: 12px;">
+        <button type="submit" class="btn btn-primary" style="flex: 1; padding: 10px; font-size: 1rem;">
+          Create Account
+        </button>
+        <a href="{% url 'dashboard_admin' %}" class="btn" style="padding: 10px 16px; background:#e9ecef; color:var(--text); text-align:center;">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  form input[type="text"],
+  form input[type="email"],
+  form input[type="password"],
+  form select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+</style>
+{% endblock %}

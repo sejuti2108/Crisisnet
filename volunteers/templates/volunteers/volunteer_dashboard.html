@@ -1,0 +1,168 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Volunteer Operational Portal — CrisisNet{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <h1 style="font-size: 1.8rem; color: var(--primary);">Volunteer Duty Dashboard</h1>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">Personal deployment status, disaster mission alerts, and readiness updates</p>
+  </div>
+  <span class="role-badge badge-volunteer" style="font-size: 0.9rem; padding: 6px 14px;">Volunteer Personnel</span>
+</div>
+
+<!-- Mission Status Overview -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px;">
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid {% if volunteer.availability == 'available' %}#28a745{% elif volunteer.availability == 'deployed' %}#0077b6{% else %}#6c757d{% endif %};">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Duty Readiness</div>
+    <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-top: 4px;">{{ volunteer.get_availability_display }}</div>
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">Contact Phone: <strong>{{ volunteer.phone|default:"Not recorded" }}</strong></div>
+  </div>
+
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #dc3545;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Disaster Assignment</div>
+    <div style="font-size: 1.25rem; font-weight: 700; color: #dc3545; margin-top: 4px;">
+      {% if assigned_incident %}
+        {{ assigned_incident.title }}
+      {% else %}
+        No Active Incident
+      {% endif %}
+    </div>
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
+      {% if assigned_incident %}
+        📍 {{ assigned_incident.location }} (Severity: {{ assigned_incident.get_severity_display }})
+      {% else %}
+        Standby for emergency alerts
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom: 0; border-top: 4px solid #2a9d8f;">
+    <div style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase;">Shelter Deployment</div>
+    <div style="font-size: 1.25rem; font-weight: 700; color: #2a9d8f; margin-top: 4px;">
+      {% if assigned_shelter %}
+        {{ assigned_shelter.name }}
+      {% else %}
+        No Stationed Shelter
+      {% endif %}
+    </div>
+    <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
+      {% if assigned_shelter %}
+        📍 {{ assigned_shelter.location }} (Occupancy: {{ assigned_shelter.current_occupancy }}/{{ assigned_shelter.capacity }})
+      {% else %}
+        Standby for shelter assignment
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Details & Self-Service Section -->
+<div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; align-items: start;">
+  <!-- Left Column: Mission Briefing -->
+  <div>
+    {% if assigned_incident or assigned_shelter %}
+      <div class="card" style="border-left: 4px solid #0077b6;">
+        <h3 style="font-size: 1.2rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+          Active Mission Briefing
+        </h3>
+
+        {% if assigned_incident %}
+          <div style="margin-bottom: 16px;">
+            <h4 style="color: #dc3545; margin-bottom: 6px;">🚨 Incident: {{ assigned_incident.title }}</h4>
+            <p style="white-space: pre-line; line-height: 1.6; font-size: 0.9rem; color: var(--text);">{{ assigned_incident.description }}</p>
+            <div style="margin-top: 8px; font-size: 0.85rem; color: var(--text-muted);">
+              <strong>Status:</strong> {{ assigned_incident.get_status_display }} &bull;
+              <strong>Location:</strong> {{ assigned_incident.location }} ({{ assigned_incident.latitude }}, {{ assigned_incident.longitude }})
+            </div>
+            <div style="margin-top: 10px;">
+              <a href="{% url 'incident_detail' assigned_incident.id %}" class="btn btn-primary" style="font-size: 0.85rem; padding: 6px 12px;">
+                View Incident Logistics &rarr;
+              </a>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if assigned_shelter %}
+          <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
+            <h4 style="color: #2a9d8f; margin-bottom: 6px;">⛺ Stationed Shelter: {{ assigned_shelter.name }}</h4>
+            <p style="font-size: 0.9rem; color: var(--text);">📍 {{ assigned_shelter.location }}</p>
+            <div style="margin-top: 6px; font-size: 0.85rem; color: var(--text-muted);">
+              <strong>Capacity:</strong> {{ assigned_shelter.capacity }} individuals &bull;
+              <strong>Current Occupancy:</strong> {{ assigned_shelter.current_occupancy }} ({{ assigned_shelter.occupancy_percentage }}%)
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="card" style="text-align: center; padding: 40px 20px;">
+        <div style="font-size: 3rem; margin-bottom: 12px;">🛡️</div>
+        <h3 style="color: var(--primary); margin-bottom: 8px;">You are currently on Standby</h3>
+        <p style="color: var(--text-muted); max-width: 480px; margin: 0 auto 16px auto; font-size: 0.9rem;">
+          No active disaster incidents or shelters are assigned to you at the moment.
+          Please keep your contact number and availability status updated so coordinators can deploy you when a distress call occurs.
+        </p>
+        <a href="{% url 'incident_list' %}" class="btn btn-outline" style="background: #1f3864; font-size: 0.85rem; padding: 6px 14px;">
+          View Active Incidents
+        </a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Right Column: Volunteer Self-Service Form -->
+  <div>
+    <div class="card">
+      <h3 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        Update Profile & Readiness
+      </h3>
+      <form method="post">
+        {% csrf_token %}
+
+        <div style="margin-bottom: 14px;">
+          <label for="id_availability" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px;">
+            Deployment Readiness:
+          </label>
+          {{ form.availability }}
+          {% if form.availability.errors %}
+            <div style="color: #dc3545; font-size: 0.8rem; margin-top: 4px;">{{ form.availability.errors.as_text }}</div>
+          {% endif %}
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label for="id_phone" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px;">
+            Emergency Contact Phone:
+          </label>
+          {{ form.phone }}
+          {% if form.phone.errors %}
+            <div style="color: #dc3545; font-size: 0.8rem; margin-top: 4px;">{{ form.phone.errors.as_text }}</div>
+          {% endif %}
+        </div>
+
+        <div style="margin-bottom: 18px;">
+          <label for="id_skills" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px;">
+            Skills & Specializations:
+          </label>
+          {{ form.skills }}
+          {% if form.skills.errors %}
+            <div style="color: #dc3545; font-size: 0.8rem; margin-top: 4px;">{{ form.skills.errors.as_text }}</div>
+          {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px 12px;">
+          Save Profile Updates
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  .form-control {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+</style>
+{% endblock %}

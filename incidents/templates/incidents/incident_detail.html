@@ -1,0 +1,244 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}{{ incident.title }} — Incident Details | CrisisNet{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+      <a href="{% url 'incident_list' %}" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem;">&larr; All Incidents</a>
+      <span style="color: var(--border);">|</span>
+      <span style="text-transform: uppercase; font-size: 0.8rem; font-weight: 600; color: var(--text-muted);">{{ incident.get_incident_type_display }}</span>
+    </div>
+    <h1 style="font-size: 1.8rem; color: var(--primary);">{{ incident.title }}</h1>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">📍 {{ incident.location }} &bull; Coordinates: ({{ incident.latitude }}, {{ incident.longitude }})</p>
+  </div>
+
+  <div style="display: flex; gap: 8px; align-items: center;">
+    <span class="role-badge" style="
+      {% if incident.severity == 'critical' %}background: #dc3545; color: white;
+      {% elif incident.severity == 'high' %}background: #e63946; color: white;
+      {% elif incident.severity == 'medium' %}background: #ffc107; color: #212529;
+      {% else %}background: #17a2b8; color: white;
+      {% endif %}
+      font-size: 0.85rem; padding: 6px 12px;">
+      Severity: {{ incident.get_severity_display }}
+    </span>
+    <span class="role-badge" style="
+      {% if incident.status == 'active' %}background: #dc3545; color: white;
+      {% elif incident.status == 'reported' %}background: #fd7e14; color: white;
+      {% elif incident.status == 'contained' %}background: #0077b6; color: white;
+      {% else %}background: #28a745; color: white;
+      {% endif %}
+      font-size: 0.85rem; padding: 6px 12px;">
+      Status: {{ incident.get_status_display }}
+    </span>
+  </div>
+</div>
+
+<!-- Main Overview Grid -->
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">
+  <!-- Left Column: Incident Description, Affected Shelters, and Connected Supply Requests -->
+  <div>
+    <!-- Description Card -->
+    <div class="card">
+      <h3 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        Disaster Assessment & Situation Overview
+      </h3>
+      <p style="white-space: pre-line; line-height: 1.6; color: var(--text);">{{ incident.description }}</p>
+      
+      <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted);">
+        <span>Reported by: <strong>{{ incident.reported_by.username|default:"Field Dispatch / Sensor" }}</strong></span>
+        <span>Reported at: {{ incident.created_at|date:"M d, Y H:i" }} (Updated: {{ incident.updated_at|date:"M d, Y H:i" }})</span>
+      </div>
+    </div>
+
+    <!-- Affected Shelters in Disaster Zone -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <h3 style="font-size: 1.15rem; color: var(--primary);">
+          Affected Emergency Shelters ({{ affected_shelters.count }})
+        </h3>
+        {% if affected_shelters %}
+          <span style="font-size: 0.85rem; color: var(--text-muted);">
+            Zone Occupancy: <strong>{{ total_shelter_occupancy }} / {{ total_shelter_capacity }}</strong>
+          </span>
+        {% endif %}
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+          <thead>
+            <tr style="background: #f1f3f5; text-align: left;">
+              <th style="padding: 8px 10px;">Shelter Name</th>
+              <th style="padding: 8px 10px;">Location</th>
+              <th style="padding: 8px 10px;">Capacity</th>
+              <th style="padding: 8px 10px;">Current Occupancy</th>
+              <th style="padding: 8px 10px;">Status</th>
+              <th style="padding: 8px 10px;">Manager</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for shelter in affected_shelters %}
+              <tr style="border-bottom: 1px solid #eee;">
+                <td style="padding: 8px 10px;"><strong>{{ shelter.name }}</strong></td>
+                <td style="padding: 8px 10px;">📍 {{ shelter.location }}</td>
+                <td style="padding: 8px 10px;">{{ shelter.capacity }}</td>
+                <td style="padding: 8px 10px;">
+                  {{ shelter.current_occupancy }} ({{ shelter.occupancy_percentage }}%)
+                </td>
+                <td style="padding: 8px 10px;">
+                  <span class="role-badge" style="background: {% if shelter.status == 'open' %}#28a745{% elif shelter.status == 'full' %}#dc3545{% else %}#6c757d{% endif %}; font-size:0.7rem;">
+                    {{ shelter.get_status_display }}
+                  </span>
+                </td>
+                <td style="padding: 8px 10px; color: var(--text-muted);">{{ shelter.manager.username|default:"Unassigned" }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 20px; color: var(--text-muted);">
+                  No shelters have been linked to this incident zone yet.
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Connected Relief Supply Requests -->
+    <div class="card">
+      <h3 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        Connected Relief Supply Requests ({{ connected_requests|length }})
+      </h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+        Relief provisions and emergency materials requested for shelters impacted by this disaster:
+      </p>
+
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+          <thead>
+            <tr style="background: #1f3864; color: white; text-align: left;">
+              <th style="padding: 8px 10px;">Req ID</th>
+              <th style="padding: 8px 10px;">Shelter</th>
+              <th style="padding: 8px 10px;">Requested Item</th>
+              <th style="padding: 8px 10px;">Quantity</th>
+              <th style="padding: 8px 10px;">Status</th>
+              <th style="padding: 8px 10px;">Fulfilled By</th>
+              <th style="padding: 8px 10px;">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for req in connected_requests %}
+              <tr style="border-bottom: 1px solid var(--border);">
+                <td style="padding: 8px 10px;">#{{ req.id }}</td>
+                <td style="padding: 8px 10px;"><strong>{{ req.shelter_name }}</strong></td>
+                <td style="padding: 8px 10px;">{{ req.item_name }}</td>
+                <td style="padding: 8px 10px;">{{ req.quantity }}</td>
+                <td style="padding: 8px 10px;">
+                  <span class="role-badge" style="
+                    {% if req.status == 'pending' %}background: #ffc107; color: #212529;
+                    {% elif req.status == 'approved' %}background: #0077b6; color: white;
+                    {% elif req.status == 'dispatched' %}background: #28a745; color: white;
+                    {% elif req.status == 'rejected' %}background: #dc3545; color: white;
+                    {% endif %}
+                    font-size: 0.7rem; text-transform: uppercase;">
+                    {{ req.get_status_display }}
+                  </span>
+                </td>
+                <td style="padding: 8px 10px; color: var(--text-muted);">{{ req.fulfilled_by.name|default:"—" }}</td>
+                <td style="padding: 8px 10px; font-size: 0.75rem; color: var(--text-muted);">{{ req.created_at|date:"M d, H:i" }}</td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="7" style="text-align: center; padding: 20px; color: var(--text-muted);">
+                  No supply requests connected to this incident's affected shelters yet.
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Operational Controls & Volunteer Deployments -->
+  <div>
+    <!-- Status & Severity Modification Control -->
+    {% if can_modify %}
+      <div class="card" style="border-top: 4px solid var(--primary);">
+        <h3 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+          Update Emergency Status
+        </h3>
+        <form action="{% url 'update_incident_status' incident.id %}" method="post">
+          {% csrf_token %}
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Incident Status:</label>
+            <select name="status" style="width: 100%; padding: 7px 10px; border-radius: 4px; border: 1px solid var(--border);">
+              {% for val, label in status_choices %}
+                <option value="{{ val }}" {% if val == incident.status %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Severity Level:</label>
+            <select name="severity" style="width: 100%; padding: 7px 10px; border-radius: 4px; border: 1px solid var(--border);">
+              {% for val, label in severity_choices %}
+                <option value="{{ val }}" {% if val == incident.severity %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 8px 12px;">Save Status Changes</button>
+        </form>
+      </div>
+    {% endif %}
+
+    <!-- Assigned Field Volunteers (Phase 6 Integration) -->
+    <div class="card">
+      <h3 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        Assigned Volunteer Force
+      </h3>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+        Volunteers deployed to support relief in this emergency zone:
+      </p>
+
+      {% if assigned_volunteers %}
+        <ul style="list-style: none; padding: 0;">
+          {% for vol in assigned_volunteers %}
+            <li style="padding: 8px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;">
+              <span><strong>{{ vol.user.get_full_name|default:vol.user.username }}</strong></span>
+              <span class="role-badge badge-volunteer" style="font-size: 0.7rem;">{{ vol.get_status_display|default:"Deployed" }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div style="padding: 16px 8px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+          No field volunteers dispatched to this incident yet.
+          <div style="margin-top: 8px;">
+            <a href="/volunteers/manage/" style="color: var(--primary); font-size: 0.8rem; text-decoration: none;">&rarr; Volunteer Management</a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Location & Geographic Info Card -->
+    <div class="card">
+      <h3 style="font-size: 1.1rem; color: var(--primary); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        Geospatial Zone
+      </h3>
+      <div style="font-size: 0.85rem; line-height: 1.6;">
+        <div><strong>Zone Location:</strong> {{ incident.location }}</div>
+        <div><strong>Latitude:</strong> {{ incident.latitude }}</div>
+        <div><strong>Longitude:</strong> {{ incident.longitude }}</div>
+      </div>
+      <div style="margin-top: 12px;">
+        <a href="/live/" class="btn btn-outline" style="background: #1f3864; font-size: 0.8rem; padding: 6px 12px; width: 100%; text-align: center; display: block;">
+          View Live Incident Map
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
