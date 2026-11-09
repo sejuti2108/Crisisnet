@@ -234,7 +234,7 @@
         <div><strong>Longitude:</strong> {{ incident.longitude }}</div>
       </div>
       <div style="margin-top: 12px;">
-        <a href="/live/" class="btn btn-outline" style="background: #1f3864; font-size: 0.8rem; padding: 6px 12px; width: 100%; text-align: center; display: block;">
+        <a href="/map/?lat={{ incident.latitude }}&lon={{ incident.longitude }}" class="btn btn-outline" style="background: #1f3864; font-size: 0.8rem; padding: 6px 12px; width: 100%; text-align: center; display: block;">
           View Live Incident Map
         </a>
       </div>

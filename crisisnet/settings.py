@@ -35,9 +35,13 @@ INSTALLED_APPS = [
     'volunteers',
     'warehouses',
     'requests_app',
+    'prediction',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
+
+# Allow cross-origin asset requests (such as map tiles) to receive the origin as Referer
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
