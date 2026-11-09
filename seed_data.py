@@ -13,7 +13,7 @@ User = get_user_model()
 
 # Ensure an admin user exists
 admin_user, created = User.objects.get_or_create(
-    username="Anup",
+    username="Anup", # Set the details according to your already created superuser.
     defaults={
         "email": "anupsrk2k4@gmail.com",
         "is_staff": True,
