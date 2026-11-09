@@ -244,10 +244,38 @@ function showLoadError(message) {
   document.body.appendChild(box);
 }
 
-fetch(window.MAP_DATA_URL)
-  .then(response => {
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
-  })
-  .then(applyPayload)
-  .catch(err => showLoadError(`Could not load map data (${err.message}).`));
+function loadMapData() {
+  fetch(window.MAP_DATA_URL)
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
+    .then(applyPayload)
+    .catch(err => showLoadError(`Could not load map data (${err.message}).`));
+}
+
+loadMapData();
+
+// Real-Time Alert Broadcasts: Live update map markers when incidents change
+(function initMapWebSocket() {
+  const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+  const wsUrl = protocol + window.location.host + '/ws/alerts/';
+
+  function connect() {
+    const ws = new WebSocket(wsUrl);
+    ws.onmessage = function(e) {
+      try {
+        const data = JSON.parse(e.data);
+        if (data.event_type === 'incident_update') {
+          loadMapData();
+        }
+      } catch (err) {
+        console.error('Map alert WebSocket error:', err);
+      }
+    };
+    ws.onclose = function() {
+      setTimeout(connect, 5000);
+    };
+  }
+  connect();
+})();

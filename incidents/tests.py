@@ -166,3 +166,32 @@ class IncidentViewsTests(TestCase):
 
         self.incident.refresh_from_db()
         self.assertEqual(self.incident.status, Incident.Status.ACTIVE)
+
+    def test_create_operational_notice_authorized(self):
+        self.client.login(username="coord_user", password=self.password)
+        url = reverse("create_operational_notice")
+        response = self.client.post(
+            url,
+            {
+                "title": "Severe Cyclone Warning",
+                "message": "Immediate evacuation advisory for coastal shelters.",
+                "priority": "urgent",
+            },
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+        from incidents.models import OperationalNotice
+        self.assertTrue(OperationalNotice.objects.filter(title="Severe Cyclone Warning").exists())
+
+    def test_create_operational_notice_unauthorized(self):
+        self.client.login(username="volunteer_user", password=self.password)
+        url = reverse("create_operational_notice")
+        response = self.client.post(
+            url,
+            {
+                "title": "Unauthorized Bulletin",
+                "message": "Testing unauthorized block.",
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+

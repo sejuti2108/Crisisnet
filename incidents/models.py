@@ -89,3 +89,48 @@ class Incident(models.Model):
     @property
     def is_active(self):
         return self.status in [self.Status.REPORTED, self.Status.ACTIVE]
+
+
+class OperationalNotice(models.Model):
+    class Priority(models.TextChoices):
+        URGENT = "urgent", "Urgent / Critical Action"
+        HIGH = "high", "High Priority"
+        NORMAL = "normal", "Standard Operational Notice"
+        ADVISORY = "advisory", "Advisory / Informational"
+
+    title = models.CharField(
+        max_length=200,
+        help_text="Short headline of the operational directive or bulletin",
+    )
+    message = models.TextField(
+        help_text="Full operational instructions, weather warning, or dispatch guidance",
+    )
+    priority = models.CharField(
+        max_length=20,
+        choices=Priority.choices,
+        default=Priority.NORMAL,
+        help_text="Urgency level of this operational directive",
+    )
+    target_role = models.CharField(
+        max_length=30,
+        default="all",
+        help_text="Intended audience (e.g. all, shelter_manager, volunteer, coordinator)",
+    )
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="operational_notices",
+        help_text="Authorized coordinator or admin issuing this broadcast",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Operational Notice"
+        verbose_name_plural = "Operational Notices"
+
+    def __str__(self):
+        return f"[{self.get_priority_display()}] {self.title}"
+
