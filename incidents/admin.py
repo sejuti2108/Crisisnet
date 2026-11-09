@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Incident
+from .models import Incident, OperationalNotice
 
 
 @admin.register(Incident)
@@ -36,3 +36,12 @@ class IncidentAdmin(admin.ModelAdmin):
             "classes": ("collapse",),
         }),
     )
+
+
+@admin.register(OperationalNotice)
+class OperationalNoticeAdmin(admin.ModelAdmin):
+    list_display = ("title", "priority", "target_role", "created_by", "created_at")
+    list_filter = ("priority", "target_role", "created_at")
+    search_fields = ("title", "message")
+    readonly_fields = ("created_at",)
+

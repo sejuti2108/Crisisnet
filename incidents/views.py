@@ -6,7 +6,8 @@ from django.views.decorators.http import require_POST
 
 from accounts.models import User
 from requests_app.models import Request
-from .models import Incident
+from .models import Incident, OperationalNotice
+from .broadcasts import broadcast_incident_alert, broadcast_notice_alert
 
 
 @login_required
@@ -34,16 +35,21 @@ def incident_list(request):
         status__in=[Incident.Status.REPORTED, Incident.Status.ACTIVE],
     ).count()
 
+    recent_notices = OperationalNotice.objects.order_by("-created_at")[:5]
+
     context = {
         "incidents": incidents,
+        "recent_notices": recent_notices,
         "total_active": total_active,
         "critical_count": critical_count,
         "status_choices": Incident.Status.choices,
         "severity_choices": Incident.Severity.choices,
         "type_choices": Incident.IncidentType.choices,
+        "notice_priority_choices": OperationalNotice.Priority.choices,
         "selected_status": status_filter,
         "selected_severity": severity_filter,
         "selected_type": type_filter,
+        "can_broadcast_notice": request.user.is_superuser or request.user.role in [User.Role.ADMIN, User.Role.COORDINATOR],
     }
     return render(request, "incidents/incident_list.html", context)
 
@@ -134,3 +140,33 @@ def update_incident_status(request, incident_id):
         f"Incident '{incident.title}' updated: Status is now {incident.get_status_display()}, Severity is {incident.get_severity_display()}.",
     )
     return redirect("incident_detail", incident_id=incident.id)
+
+
+@require_POST
+@login_required
+def create_operational_notice(request):
+    """
+    Publish an operational notice and immediately push an alert to all active web clients via WebSockets.
+    """
+    if not (request.user.is_superuser or request.user.role in [User.Role.ADMIN, User.Role.COORDINATOR]):
+        raise PermissionDenied("Only Administrators and Coordinators can broadcast operational notices.")
+
+    title = request.POST.get("title", "").strip()
+    message = request.POST.get("message", "").strip()
+    priority = request.POST.get("priority", OperationalNotice.Priority.NORMAL)
+    target_role = request.POST.get("target_role", "all")
+
+    if not title or not message:
+        messages.error(request, "Both a title and details are required for operational notices.")
+        return redirect("incident_list")
+
+    notice = OperationalNotice.objects.create(
+        title=title,
+        message=message,
+        priority=priority,
+        target_role=target_role,
+        created_by=request.user,
+    )
+    messages.success(request, f"Operational Notice '{notice.title}' published and broadcast to all active clients.")
+    return redirect("incident_list")
+

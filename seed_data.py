@@ -18,7 +18,7 @@ admin_user, created = User.objects.get_or_create(
         "email": "anupsrk2k4@gmail.com",
         "is_staff": True,
         "is_superuser": True,
-        "role": User.Role.ADMIN,
+        "role": User.Role.ADMIN, #type: ignore
     }
 )
 if created:

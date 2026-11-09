@@ -34,6 +34,59 @@
   </div>
 </div>
 
+<!-- Operational Notices & Real-Time Broadcasts -->
+{% if recent_notices or can_broadcast_notice %}
+<div class="card" style="border-left: 4px solid #0077b6; margin-bottom: 20px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+    <h3 style="font-size: 1.1rem; color: var(--primary);">📢 Operational Directives & Live Bulletins</h3>
+    {% if can_broadcast_notice %}
+      <button onclick="const el = document.getElementById('broadcast-form-container'); el.style.display = el.style.display === 'none' ? 'block' : 'none';" class="btn btn-outline" style="background: #1f3864; font-size: 0.8rem; padding: 4px 10px;">
+        + Broadcast New Notice
+      </button>
+    {% endif %}
+  </div>
+
+  {% if can_broadcast_notice %}
+  <div id="broadcast-form-container" style="display: none; background: #f8f9fa; padding: 14px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 14px;">
+    <h4 style="font-size: 0.95rem; margin-bottom: 8px; color: var(--primary);">Publish Live Operational Notice</h4>
+    <form action="{% url 'create_operational_notice' %}" method="post">
+      {% csrf_token %}
+      <div style="display: flex; gap: 12px; margin-bottom: 8px; flex-wrap: wrap;">
+        <input type="text" name="title" placeholder="Notice Headline (e.g. Cyclone Relief Dispatch Update)" required style="flex: 2; min-width: 200px; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border);">
+        <select name="priority" style="flex: 1; min-width: 150px; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border);">
+          {% for val, label in notice_priority_choices %}
+            <option value="{{ val }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div style="margin-bottom: 8px;">
+        <textarea name="message" rows="2" placeholder="Operational details, safety directives, or advisory text..." required style="width: 100%; padding: 6px 10px; border-radius: 4px; border: 1px solid var(--border); font-family: inherit; font-size: 0.9rem;"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="font-size: 0.85rem; padding: 6px 14px;">
+        Push Live Alert via WebSocket
+      </button>
+    </form>
+  </div>
+  {% endif %}
+
+  {% if recent_notices %}
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      {% for notice in recent_notices %}
+        <div style="padding: 10px 14px; background: #fdfdfd; border-radius: 6px; border: 1px solid #e9ecef; border-left: 3px solid {% if notice.priority == 'urgent' %}#dc3545{% elif notice.priority == 'high' %}#fd7e14{% else %}#0077b6{% endif %};">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <strong>{{ notice.title }}</strong>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">{{ notice.created_at|date:"M d, H:i" }} by {{ notice.created_by.username|default:"HQ Command" }}</span>
+          </div>
+          <p style="font-size: 0.85rem; color: #495057; margin: 0; line-height: 1.4;">{{ notice.message }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">No operational bulletins currently active.</p>
+  {% endif %}
+</div>
+{% endif %}
+
 <!-- Filters -->
 <div class="card" style="padding: 16px 20px; margin-bottom: 20px;">
   <form method="get" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">

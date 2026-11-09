@@ -179,5 +179,129 @@
   <footer>
     <p>CrisisNet: Emergency Resource & Coordination System &bull; CSE 3200 Software Development Project II</p>
   </footer>
+
+  <!-- Real-Time Alert Toast Container & WebSocket Client -->
+  <div id="live-alert-toast-container" aria-live="polite" style="position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 380px; width: 100%; pointer-events: none; display: flex; flex-direction: column; gap: 10px;"></div>
+
+  <style>
+    .live-alert-toast {
+      pointer-events: auto;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      border-left: 5px solid #0077b6;
+      padding: 14px 16px;
+      animation: slideInRight 0.3s ease-out;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      font-size: 0.9rem;
+      color: #212529;
+    }
+    .live-alert-toast.critical, .live-alert-toast.urgent { border-left-color: #dc3545; background: #fffcfc; }
+    .live-alert-toast.high { border-left-color: #fd7e14; }
+    .live-alert-toast.medium { border-left-color: #ffc107; }
+    @keyframes slideInRight {
+      from { transform: translateX(110%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .live-alert-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: white;
+      background: #0077b6;
+    }
+    .live-alert-badge.critical, .live-alert-badge.urgent { background: #dc3545; }
+    .live-alert-badge.high { background: #fd7e14; }
+  </style>
+
+  <script>
+  (function initAlertWebSocket() {
+    const protocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+    const wsUrl = protocol + window.location.host + "/ws/alerts/";
+    let socket = null;
+
+    function connect() {
+      socket = new WebSocket(wsUrl);
+
+      socket.onmessage = function(e) {
+        try {
+          const data = JSON.parse(e.data);
+          if (data.event_type === "incident_update") {
+            showIncidentToast(data);
+          } else if (data.event_type === "operational_notice") {
+            showNoticeToast(data);
+          }
+        } catch(err) {
+          console.error("Alert broadcast parse error:", err);
+        }
+      };
+
+      socket.onclose = function() {
+        setTimeout(connect, 4000);
+      };
+    }
+
+    function createToastElement(html, levelClass) {
+      const container = document.getElementById("live-alert-toast-container");
+      if (!container) return;
+      const toast = document.createElement("div");
+      toast.className = "live-alert-toast " + (levelClass || "");
+      toast.innerHTML = html;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(50px)";
+        setTimeout(() => toast.remove(), 350);
+      }, 9000);
+
+      const closeBtn = toast.querySelector(".toast-close");
+      if (closeBtn) {
+        closeBtn.onclick = () => toast.remove();
+      }
+    }
+
+    function showIncidentToast(data) {
+      const level = (data.severity || "info").toLowerCase();
+      const html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span class="live-alert-badge ${level}">🚨 Incident ${data.action || 'Update'}</span>
+          <span style="font-size: 0.75rem; color: #888;">${data.timestamp || ''} <button class="toast-close" style="background:none;border:none;cursor:pointer;font-weight:bold;margin-left:6px;font-size:1rem;color:#888;">&times;</button></span>
+        </div>
+        <div style="font-weight: 700; color: #1f3864; margin-bottom: 4px;">${data.title}</div>
+        <div style="font-size: 0.82rem; color: #555; margin-bottom: 6px;">
+          📍 ${data.location || 'Emergency Zone'} &bull; <strong>${data.severity_display || data.severity}</strong> &bull; Status: ${data.status_display || data.status}
+        </div>
+        <div>
+          <a href="${data.url}" style="font-size: 0.8rem; color: #0077b6; text-decoration: none; font-weight: 600;">View Incident &rarr;</a>
+          <a href="/map/?lat=${data.latitude}&lon=${data.longitude}" style="font-size: 0.8rem; color: #dc3545; text-decoration: none; font-weight: 600; margin-left: 12px;">Map View &rarr;</a>
+        </div>
+      `;
+      createToastElement(html, level);
+    }
+
+    function showNoticeToast(data) {
+      const priority = (data.priority || "normal").toLowerCase();
+      const html = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span class="live-alert-badge ${priority}">📢 Operational Notice</span>
+          <span style="font-size: 0.75rem; color: #888;">${data.timestamp || ''} <button class="toast-close" style="background:none;border:none;cursor:pointer;font-weight:bold;margin-left:6px;font-size:1rem;color:#888;">&times;</button></span>
+        </div>
+        <div style="font-weight: 700; color: #1f3864; margin-bottom: 4px;">${data.title}</div>
+        <div style="font-size: 0.82rem; color: #444; margin-bottom: 6px; white-space: pre-line;">${data.message}</div>
+        <div style="font-size: 0.75rem; color: #777;">
+          Issued by: <strong>${data.author}</strong> &bull; Priority: ${data.priority_display || data.priority}
+        </div>
+      `;
+      createToastElement(html, priority);
+    }
+
+    connect();
+  })();
+  </script>
 </body>
 </html>

@@ -5,9 +5,9 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "crisisnet.settings")
 django_asgi_app = get_asgi_application()
 
 from channels.routing import ProtocolTypeRouter, URLRouter
-import requests_app.routing
+import crisisnet.routing
 
 application = ProtocolTypeRouter({
     "http": django_asgi_app,
-    "websocket": URLRouter(requests_app.routing.websocket_urlpatterns),
+    "websocket": URLRouter(crisisnet.routing.websocket_urlpatterns),
 })
