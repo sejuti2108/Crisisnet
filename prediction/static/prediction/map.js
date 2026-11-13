@@ -26,16 +26,29 @@ const OCCUPANCY_LABELS = {
   other: 'Other'
 };
 
-const map = L.map('map', { zoomControl: true, maxBoundsViscosity: 0.8 }).setView([23.8, 90.4], 7);
+const urlParams = new URLSearchParams(window.location.search);
+const initialLat = parseFloat(urlParams.get('lat')) || 23.8;
+const initialLon = parseFloat(urlParams.get('lon')) || 90.4;
+const initialZoom = (urlParams.has('lat') && urlParams.has('lon')) ? 12 : 7;
+
+const map = L.map('map', { zoomControl: true, maxBoundsViscosity: 0.8 }).setView([initialLat, initialLon], initialZoom);
 
 /* Basemap source. Online only: OpenStreetMap's tile servers do not allow
    offline use, so an offline demo needs a self-hosted tile source here. */
-const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+// const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+// L.tileLayer(TILE_URL, {
+//   minZoom: 6,
+//   maxZoom: 15,
+//   attribution: '&copy; OpenStreetMap contributors'
+// }).addTo(map);
+
+const TILE_URL = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
 
 L.tileLayer(TILE_URL, {
   minZoom: 6,
-  maxZoom: 15,
-  attribution: '&copy; OpenStreetMap contributors'
+  maxZoom: 18,
+  attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom'
 }).addTo(map);
 
 const floodLayer = L.layerGroup().addTo(map);
@@ -231,13 +244,38 @@ function showLoadError(message) {
   document.body.appendChild(box);
 }
 
-fetch('sample_payload.json')
-  .then(response => {
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
-  })
-  .then(applyPayload)
-  .catch(err => showLoadError(
-    `Could not load sample_payload.json (${err.message}). ` +
-    'Generate it first and serve this folder with a local web server.'
-  ));
+function loadMapData() {
+  fetch(window.MAP_DATA_URL)
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    })
+    .then(applyPayload)
+    .catch(err => showLoadError(`Could not load map data (${err.message}).`));
+}
+
+loadMapData();
+
+// Real-Time Alert Broadcasts: Live update map markers when incidents change
+(function initMapWebSocket() {
+  const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+  const wsUrl = protocol + window.location.host + '/ws/alerts/';
+
+  function connect() {
+    const ws = new WebSocket(wsUrl);
+    ws.onmessage = function(e) {
+      try {
+        const data = JSON.parse(e.data);
+        if (data.event_type === 'incident_update') {
+          loadMapData();
+        }
+      } catch (err) {
+        console.error('Map alert WebSocket error:', err);
+      }
+    };
+    ws.onclose = function() {
+      setTimeout(connect, 5000);
+    };
+  }
+  connect();
+})();

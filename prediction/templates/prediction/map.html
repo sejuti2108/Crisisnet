@@ -1,11 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CrisisNet map prototype</title>
-  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="map.css">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>CrisisNet map</title>
+  <link rel="stylesheet" href="{% static 'prediction/vendor/leaflet/leaflet.css' %}">
+  <link rel="stylesheet" href="{% static 'prediction/map.css' %}">
 </head>
 <body>
   <aside class="panel" aria-label="Map summary">
@@ -43,7 +45,8 @@
 
   <div id="map" role="application" aria-label="Interactive map of Bangladesh"></div>
 
-  <script src="vendor/leaflet/leaflet.js"></script>
-  <script src="map.js"></script>
+  <script>window.MAP_DATA_URL = "{{ data_url }}";</script>
+  <script src="{% static 'prediction/vendor/leaflet/leaflet.js' %}"></script>
+  <script src="{% static 'prediction/map.js' %}"></script>
 </body>
 </html>

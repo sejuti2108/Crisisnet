@@ -17,6 +17,7 @@ urlpatterns = [
     path("shelters/", include("shelters.urls")),
     path("incidents/", include("incidents.urls")),
     path("volunteers/", include("volunteers.urls")),
+    path("map/", include("prediction.urls")),
     path("live/", live_test),
     path("coordinator/", dashboard, name="dashboard"),
     path("coordinator/approve/<int:request_id>/", approve_action, name="approve"),
