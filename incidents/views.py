@@ -92,9 +92,11 @@ def incident_detail(request, incident_id):
     # Compute aggregate shelter metrics
     total_shelter_capacity = sum(s.capacity for s in affected_shelters)
     total_shelter_occupancy = sum(s.current_occupancy for s in affected_shelters)
+    fire_assessment = incident.get_fire_assessment()
 
     context = {
         "incident": incident,
+        "fire_assessment": fire_assessment,
         "affected_shelters": affected_shelters,
         "connected_requests": connected_requests,
         "assigned_volunteers": assigned_volunteers,

@@ -53,12 +53,14 @@ L.tileLayer(TILE_URL, {
 
 const floodLayer = L.layerGroup().addTo(map);
 const fireLayer = L.layerGroup().addTo(map);
+const otherIncidentsLayer = L.layerGroup().addTo(map);
 const shelterLayer = L.layerGroup().addTo(map);
 const warehouseLayer = L.layerGroup().addTo(map);
 
 const layersControl = L.control.layers(null, {
   'Flood risk': floodLayer,
   'Fire incidents': fireLayer,
+  'Other emergencies': otherIncidentsLayer,
   'Shelters': shelterLayer,
   'Warehouses': warehouseLayer
 }, { collapsed: false }).addTo(map);
@@ -149,6 +151,9 @@ function firePopup(incident) {
   const floorNote = incident.floor_applied
     ? '<p class="popup-note">Rated high because of the facility type, whatever the other conditions.</p>'
     : '';
+  const detailLink = incident.url
+    ? `<p class="popup-note"><a href="${escapeHtml(incident.url)}">View Incident Details &rarr;</a></p>`
+    : '';
   return `<h3 class="popup-title">${escapeHtml(incident.name)}</h3>
     <table class="popup-table">
       <tr><th>Assessment</th><td>${escapeHtml(incident.label)}</td></tr>
@@ -156,7 +161,7 @@ function firePopup(incident) {
       <tr><th>Facility</th><td>${escapeHtml(occupancy)}</td></tr>
     </table>
     <p class="popup-note">What contributed to the score</p>
-    <table class="popup-table">${factorRows}</table>${floorNote}`;
+    <table class="popup-table">${factorRows}</table>${floorNote}${detailLink}`;
 }
 
 function renderFireIncidents(incidents) {
@@ -171,6 +176,55 @@ function renderFireIncidents(incidents) {
       .bindPopup(firePopup(incident))
       .bindTooltip(`${incident.name}: ${incident.label}`, { direction: 'top', offset: [0, -14] })
       .addTo(fireLayer);
+  });
+}
+
+/* ---------- Other reported active incidents ---------- */
+
+function emergencyColor(severity) {
+  if (severity === 'critical') return '#9b2226';
+  if (severity === 'high') return '#d62828';
+  if (severity === 'medium') return '#d98a00';
+  return '#0077b6';
+}
+
+function otherIncidentIcon(incident) {
+  const fill = emergencyColor(incident.severity);
+  return L.divIcon({
+    className: 'emergency-icon',
+    html: `<svg width="22" height="20" viewBox="0 0 22 20" aria-hidden="true">` +
+          `<polygon points="11,1 21,19 1,19" fill="${fill}" stroke="#ffffff" stroke-width="2"/>` +
+          `</svg>`,
+    iconSize: [22, 20],
+    iconAnchor: [11, 18],
+    popupAnchor: [0, -16]
+  });
+}
+
+function otherIncidentPopup(incident) {
+  const detailLink = incident.url
+    ? `<p class="popup-note"><a href="${escapeHtml(incident.url)}">View Incident Details &rarr;</a></p>`
+    : '';
+  return `<h3 class="popup-title">${escapeHtml(incident.name)}</h3>
+    <table class="popup-table">
+      <tr><th>Type</th><td>${escapeHtml(incident.incident_type_display || incident.incident_type)}</td></tr>
+      <tr><th>Severity</th><td>${escapeHtml(incident.severity_display || incident.severity)}</td></tr>
+      <tr><th>Status</th><td>${escapeHtml(incident.status_display || incident.status)}</td></tr>
+      <tr><th>Zone</th><td>${escapeHtml(incident.location || '-')}</td></tr>
+    </table>${detailLink}`;
+}
+
+function renderOtherIncidents(incidents) {
+  otherIncidentsLayer.clearLayers();
+  incidents.forEach(incident => {
+    L.marker([incident.lat, incident.lon], {
+      icon: otherIncidentIcon(incident),
+      zIndexOffset: incident.severity === 'critical' ? 900 : 400,
+      title: incident.name
+    })
+      .bindPopup(otherIncidentPopup(incident))
+      .bindTooltip(`${incident.name} (${incident.incident_type_display || incident.incident_type})`, { direction: 'top', offset: [0, -16] })
+      .addTo(otherIncidentsLayer);
   });
 }
 
@@ -223,6 +277,7 @@ function renderSummary(payload) {
   set('stat-error', zones.filter(z => z.error).length);
   set('stat-fire', fires.length);
   set('stat-fire-high', fires.filter(f => f.label === 'High Escalation Risk').length);
+  set('stat-other-incidents', (payload.other_incidents || []).length);
 
   const stamp = payload.generated_at ? new Date(payload.generated_at).toLocaleString() : 'unknown time';
   document.getElementById('timestamp').textContent = `Data as of ${stamp}`;
@@ -231,6 +286,7 @@ function renderSummary(payload) {
 function applyPayload(payload) {
   renderFloodZones(payload.flood_risk_zones || []);
   renderFireIncidents(payload.fire_incidents || []);
+  renderOtherIncidents(payload.other_incidents || []);
   renderSites(shelterLayer, payload.shelters || [], 'shelter', 'Shelter');
   renderSites(warehouseLayer, payload.warehouses || [], 'warehouse', 'Warehouse');
   renderSummary(payload);
@@ -256,9 +312,9 @@ function loadMapData() {
 
 loadMapData();
 
-// Real-Time Alert Broadcasts: Live update map markers when incidents change
+// Real-Time Alert Broadcasts: Live update map markers when incidents, weather, or sites change
 window.onCrisisNetAlert = function(data) {
-  if (data && data.event_type === 'incident_update') {
+  if (data && (data.event_type === 'incident_update' || data.event_type === 'weather_update' || data.event_type === 'site_update')) {
     loadMapData();
   }
 };

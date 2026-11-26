@@ -140,6 +140,11 @@ incidents_data = [
         "latitude": 23.8583,
         "longitude": 90.2667,
         "description": "Industrial textile unit fire spreading due to stored fabric. Emergency fire services engaged.",
+        "occupancy_type": Incident.OccupancyType.GARMENT_FACTORY,
+        "building_material": Incident.BuildingMaterial.CONCRETE,
+        "road_access": Incident.RoadAccess.NARROW_ALLEY,
+        "area_density": Incident.AreaDensity.HIGH_DENSITY,
+        "incident_hour": 2,
     },
     {
         "title": "Chemical Depot Fire, Sitakunda",
@@ -150,6 +155,11 @@ incidents_data = [
         "latitude": 22.3569,
         "longitude": 91.7832,
         "description": "Toxic fume fire at chemical container facility. 1km exclusion perimeter established.",
+        "occupancy_type": Incident.OccupancyType.CHEMICAL,
+        "building_material": Incident.BuildingMaterial.CONCRETE,
+        "road_access": Incident.RoadAccess.WIDE_ROAD,
+        "area_density": Incident.AreaDensity.RESIDENTIAL,
+        "incident_hour": 14,
     },
     {
         "title": "Residential Market Fire, Rajshahi",
@@ -160,6 +170,11 @@ incidents_data = [
         "latitude": 24.3745,
         "longitude": 88.6042,
         "description": "Electrical short circuit in market complex. Contained to second floor.",
+        "occupancy_type": Incident.OccupancyType.RESIDENTIAL,
+        "building_material": Incident.BuildingMaterial.TIN,
+        "road_access": Incident.RoadAccess.MEDIUM_ROAD,
+        "area_density": Incident.AreaDensity.RESIDENTIAL,
+        "incident_hour": 20,
     },
     {
         "title": "Surma River Flash Flood",
@@ -174,7 +189,7 @@ incidents_data = [
 ]
 
 for inc_data in incidents_data:
-    Incident.objects.get_or_create(
+    Incident.objects.update_or_create(
         title=inc_data["title"],
         defaults={
             "incident_type": inc_data["incident_type"],
@@ -184,6 +199,11 @@ for inc_data in incidents_data:
             "latitude": inc_data["latitude"],
             "longitude": inc_data["longitude"],
             "description": inc_data["description"],
+            "occupancy_type": inc_data.get("occupancy_type", Incident.OccupancyType.OTHER),
+            "building_material": inc_data.get("building_material", Incident.BuildingMaterial.CONCRETE),
+            "road_access": inc_data.get("road_access", Incident.RoadAccess.MEDIUM_ROAD),
+            "area_density": inc_data.get("area_density", Incident.AreaDensity.RESIDENTIAL),
+            "incident_hour": inc_data.get("incident_hour"),
             "reported_by": admin_user,
         },
     )

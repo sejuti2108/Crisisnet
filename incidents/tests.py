@@ -203,6 +203,43 @@ class IncidentViewsTests(TestCase):
             self.assertContains(response, "live-alert-toast-container")
             self.assertContains(response, "/ws/alerts/")
 
+    def test_fire_assessment_and_map_data_integration(self):
+        # Non-fire incident returns None
+        self.assertIsNone(self.incident.get_fire_assessment())
+
+        # Chemical fire with favorable conditions still hits High floor
+        chem_fire = Incident.objects.create(
+            title="Chemical Warehouse Blaze",
+            incident_type=Incident.IncidentType.FIRE,
+            description="Chemical drums ignited.",
+            location="Sitakunda",
+            latitude=22.62,
+            longitude=91.66,
+            severity=Incident.Severity.CRITICAL,
+            status=Incident.Status.ACTIVE,
+            occupancy_type=Incident.OccupancyType.CHEMICAL,
+            building_material=Incident.BuildingMaterial.CONCRETE,
+            road_access=Incident.RoadAccess.WIDE_ROAD,
+            area_density=Incident.AreaDensity.RESIDENTIAL,
+            incident_hour=14,
+        )
+        assessment = chem_fire.get_fire_assessment()
+        self.assertEqual(assessment["score"], 45)
+        self.assertEqual(assessment["label"], "High Escalation Risk")
+        self.assertTrue(assessment["floor_applied"])
+
+        self.client.login(username="coord_user", password=self.password)
+        resp = self.client.get(reverse("prediction:map_data"))
+        self.assertEqual(resp.status_code, 200)
+        payload = resp.json()
+        self.assertEqual(len(payload["fire_incidents"]), 1)
+        fire_entry = payload["fire_incidents"][0]
+        self.assertEqual(fire_entry["occupancy_type"], "chemical")
+        self.assertEqual(fire_entry["score"], 45)
+        self.assertEqual(fire_entry["label"], "High Escalation Risk")
+        self.assertTrue(fire_entry["floor_applied"])
+        self.assertIn("road_access", fire_entry["factors"])
+
 
 class AlertBroadcastWebSocketTests(TransactionTestCase):
     async def test_alert_consumer_receives_incident_and_notice_broadcasts(self):
