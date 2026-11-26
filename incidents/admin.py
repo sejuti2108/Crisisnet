@@ -28,6 +28,10 @@ class IncidentAdmin(admin.ModelAdmin):
         ("Urgency & Status", {
             "fields": ("severity", "status"),
         }),
+        ("Fire Escalation Factors (Fire Outbreaks Only)", {
+            "fields": ("occupancy_type", "building_material", "road_access", "area_density", "incident_hour"),
+            "classes": ("collapse",),
+        }),
         ("Affected Facilities", {
             "fields": ("affected_shelters",),
         }),

@@ -248,6 +248,18 @@ body {
   box-shadow: 0 0 0 1px var(--ink);
 }
 
+.emergency-icon {
+  background: none;
+  border: 0;
+}
+
+.swatch-emergency {
+  opacity: 1;
+  border-radius: 0;
+  background: #0077b6;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
 /* ---------- Country border glow ---------- */
 
 .border-halo-wide,

@@ -68,6 +68,8 @@
           showIncidentToast(data);
         } else if (data.event_type === "operational_notice") {
           showNoticeToast(data);
+        } else if (data.event_type === "weather_update") {
+          showWeatherToast(data);
         }
         if (typeof window.onCrisisNetAlert === "function") {
           window.onCrisisNetAlert(data);
@@ -142,6 +144,24 @@
       </div>
     `;
     createToastElement(html, priority);
+  }
+
+  function showWeatherToast(data) {
+    const isReset = data.action === "reset";
+    const level = isReset ? "info" : "high";
+    const verb = isReset ? "Reset to Seasonal Baseline" : "Live Weather Override";
+    const html = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span class="live-alert-badge ${level}">&#127782; ${verb}</span>
+        <span style="font-size: 0.75rem; color: #888;">${escapeHtml(data.timestamp || "")} <button class="toast-close" style="background:none;border:none;cursor:pointer;font-weight:bold;margin-left:6px;font-size:1rem;color:#888;" aria-label="Dismiss">&times;</button></span>
+      </div>
+      <div style="font-weight: 700; color: #1f3864; margin-bottom: 4px;">Station: ${escapeHtml(data.station_name)}</div>
+      <div style="font-size: 0.78rem; color: #555;">
+        Updated by <strong>${escapeHtml(data.author || "HQ Command")}</strong> &bull;
+        <a href="/map/" style="color: #0077b6; text-decoration: none; font-weight: 600;">View Map &rarr;</a>
+      </div>
+    `;
+    createToastElement(html, level);
   }
 
   connect();

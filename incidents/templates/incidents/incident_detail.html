@@ -53,6 +53,35 @@
       </div>
     </div>
 
+    {% if fire_assessment %}
+    <!-- Fire Escalation Risk Assessment -->
+    <div class="card" style="border-left: 4px solid {% if fire_assessment.label == 'High Escalation Risk' %}#dc3545{% elif fire_assessment.label == 'Medium Escalation Risk' %}#fd7e14{% else %}#6c757d{% endif %};">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+        <h3 style="font-size: 1.15rem; color: var(--primary);">🔥 Fire Escalation Risk Model</h3>
+        <span class="role-badge" style="background: {% if fire_assessment.label == 'High Escalation Risk' %}#dc3545{% elif fire_assessment.label == 'Medium Escalation Risk' %}#fd7e14{% else %}#6c757d{% endif %}; color: white;">
+          {{ fire_assessment.label }} (Score: {{ fire_assessment.score }})
+        </span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; font-size: 0.85rem; margin-bottom: 10px;">
+        <div><strong>Facility:</strong> {{ incident.get_occupancy_type_display }}</div>
+        <div><strong>Material:</strong> {{ incident.get_building_material_display }}</div>
+        <div><strong>Road Access:</strong> {{ incident.get_road_access_display }}</div>
+        <div><strong>Area Density:</strong> {{ incident.get_area_density_display }}</div>
+      </div>
+      <div style="font-size: 0.82rem; color: var(--text-muted);">
+        <strong>Contributing factors:</strong>
+        {% for factor, pts in fire_assessment.factors.items %}
+          {% if pts > 0 %}
+            <span style="display:inline-block; background:#f1f3f5; padding:2px 8px; border-radius:4px; margin-right:6px;">{{ factor }}: +{{ pts }}</span>
+          {% endif %}
+        {% endfor %}
+        {% if fire_assessment.floor_applied %}
+          <span style="color:#dc3545; font-weight:600; display:block; margin-top:6px;">Safety floor applied due to hazardous facility type.</span>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
     <!-- Affected Shelters in Disaster Zone -->
     <div class="card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">

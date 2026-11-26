@@ -1,0 +1,115 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}Live Weather Overrides — CrisisNet{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+  <div>
+    <h1 style="font-size: 1.8rem; color: var(--primary);">Live Station Weather Overrides</h1>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">
+      Enter real-time meteorological readings for any of the 33 stations to override seasonal flood baselines.
+    </p>
+  </div>
+  <a href="{% url 'prediction:map' %}" class="btn btn-primary" style="font-size: 0.9rem;">
+    &larr; View Live Map
+  </a>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 24px; align-items: start;">
+  <!-- Override Input Form -->
+  <div class="card">
+    <h2 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+      Set / Update Station Reading
+    </h2>
+    <form method="post" action="{% url 'prediction:weather_overrides' %}">
+      {% csrf_token %}
+      {% for field in form %}
+        <div style="margin-bottom: 14px;">
+          <label for="{{ field.id_for_label }}" style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;">
+            {{ field.label }}
+          </label>
+          {{ field }}
+          {% if field.help_text %}
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 3px;">{{ field.help_text }}</div>
+          {% endif %}
+          {% if field.errors %}
+            <div style="font-size: 0.8rem; color: #dc3545; margin-top: 3px;">{{ field.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary" style="width: 100%; padding: 9px;">
+        Save &amp; Push Live Map Update
+      </button>
+    </form>
+  </div>
+
+  <!-- Active Overrides Table -->
+  <div class="card">
+    <h2 style="font-size: 1.15rem; color: var(--primary); margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+      Active Overrides ({{ rows|length }})
+    </h2>
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
+        <thead>
+          <tr style="background: #f1f3f5; text-align: left;">
+            <th style="padding: 8px;">Station</th>
+            <th style="padding: 8px;">Readings</th>
+            <th style="padding: 8px;">Flood Risk</th>
+            <th style="padding: 8px;">Updated By</th>
+            <th style="padding: 8px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 8px;">
+                <strong>{{ row.override.station_name }}</strong>
+              </td>
+              <td style="padding: 8px;">
+                Rain: {{ row.override.rainfall }} mm<br>
+                RH: {{ row.override.relative_humidity }}% &bull; Cloud: {{ row.override.cloud_coverage }}
+              </td>
+              <td style="padding: 8px;">
+                <span class="role-badge" style="background: {% if row.prediction.risk_label == 'High' %}#dc3545{% else %}#28a745{% endif %}; font-size: 0.72rem;">
+                  {{ row.prediction.risk_label }} ({{ row.prediction.flood_probability|floatformat:2 }})
+                </span>
+                {% if row.prediction.warnings %}
+                  <div style="font-size: 0.72rem; color: #856404; margin-top: 4px;">Out-of-range warning</div>
+                {% endif %}
+              </td>
+              <td style="padding: 8px; color: var(--text-muted); font-size: 0.8rem;">
+                {{ row.override.updated_by.username|default:"HQ" }}<br>
+                {{ row.override.updated_at|date:"M d, H:i" }}
+              </td>
+              <td style="padding: 8px;">
+                <form method="post" action="{% url 'prediction:reset_weather_override' row.override.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger" style="font-size: 0.75rem; padding: 4px 10px;">
+                    Reset to Seasonal Baseline
+                  </button>
+                </form>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 20px; color: var(--text-muted);">
+                No active overrides. All 33 stations are currently using seasonal monthly baselines.
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+  select, input[type="number"] {
+    width: 100%;
+    padding: 7px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+</style>
+{% endblock %}

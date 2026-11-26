@@ -13,6 +13,13 @@
   <aside class="panel" aria-label="Map summary">
     <h1>CrisisNet</h1>
     <p class="panel-sub">Flood and fire overview</p>
+    {% if can_override_weather %}
+      <p style="margin: 0 0 12px;">
+        <a href="{% url 'prediction:weather_overrides' %}" style="font-size: 0.82rem; color: #1f3864; font-weight: 600; text-decoration: none;">
+          &#9881; Live Weather Overrides &rarr;
+        </a>
+      </p>
+    {% endif %}
 
     <section aria-labelledby="summary-title">
       <h2 id="summary-title">Current picture</h2>
@@ -24,6 +31,7 @@
         <div><dt>No data</dt><dd id="stat-error">-</dd></div>
         <div><dt>Fire incidents</dt><dd id="stat-fire">-</dd></div>
         <div><dt>High escalation</dt><dd id="stat-fire-high">-</dd></div>
+        <div><dt>Other emergencies</dt><dd id="stat-other-incidents">-</dd></div>
       </dl>
       <p class="timestamp" id="timestamp">Loading data...</p>
     </section>
@@ -37,6 +45,7 @@
         <li><span class="swatch swatch-dashed"></span>Dashed outline: seasonal baseline for this month</li>
         <li><span class="swatch swatch-nodata"></span>Grey: no usable data for this station</li>
         <li><span class="swatch swatch-fire"></span>Glowing marker: fire incident (red high, amber medium, grey standard)</li>
+        <li><span class="swatch swatch-emergency"></span>Triangle: reported active emergency (flood, cyclone, etc.)</li>
         <li><span class="swatch swatch-shelter"></span>Square: shelter</li>
         <li><span class="swatch swatch-warehouse"></span>Diamond: warehouse</li>
       </ul>
