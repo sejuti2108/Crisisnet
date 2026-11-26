@@ -46,6 +46,7 @@
   <div id="map" role="application" aria-label="Interactive map of Bangladesh"></div>
 
   <script>window.MAP_DATA_URL = "{{ data_url }}";</script>
+  {% include "incidents/_alerts_widget.html" %}
   <script src="{% static 'prediction/vendor/leaflet/leaflet.js' %}"></script>
   <script src="{% static 'prediction/map.js' %}"></script>
 </body>
