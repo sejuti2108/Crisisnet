@@ -257,25 +257,32 @@ function loadMapData() {
 loadMapData();
 
 // Real-Time Alert Broadcasts: Live update map markers when incidents change
-(function initMapWebSocket() {
-  const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-  const wsUrl = protocol + window.location.host + '/ws/alerts/';
-
-  function connect() {
-    const ws = new WebSocket(wsUrl);
-    ws.onmessage = function(e) {
-      try {
-        const data = JSON.parse(e.data);
-        if (data.event_type === 'incident_update') {
-          loadMapData();
-        }
-      } catch (err) {
-        console.error('Map alert WebSocket error:', err);
-      }
-    };
-    ws.onclose = function() {
-      setTimeout(connect, 5000);
-    };
+window.onCrisisNetAlert = function(data) {
+  if (data && data.event_type === 'incident_update') {
+    loadMapData();
   }
-  connect();
-})();
+};
+
+// Fallback if _alerts_widget.html is not loaded (e.g. standalone map_prototype)
+if (!window.__crisisNetAlertWsInitialized) {
+  (function initMapWebSocket() {
+    const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    const wsUrl = protocol + window.location.host + '/ws/alerts/';
+
+    function connect() {
+      const ws = new WebSocket(wsUrl);
+      ws.onmessage = function(e) {
+        try {
+          const data = JSON.parse(e.data);
+          window.onCrisisNetAlert(data);
+        } catch (err) {
+          console.error('Map alert WebSocket error:', err);
+        }
+      };
+      ws.onclose = function() {
+        setTimeout(connect, 5000);
+      };
+    }
+    connect();
+  })();
+}

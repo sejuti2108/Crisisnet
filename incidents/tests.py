@@ -1,6 +1,6 @@
 from django.contrib.admin.sites import site
 from django.contrib.auth import get_user_model
-from django.test import Client, TestCase
+from django.test import Client, TestCase, TransactionTestCase
 from django.urls import reverse
 
 from incidents.admin import IncidentAdmin
@@ -194,4 +194,66 @@ class IncidentViewsTests(TestCase):
             },
         )
         self.assertEqual(response.status_code, 403)
+
+    def test_map_and_coordinator_pages_include_alerts_widget(self):
+        self.client.login(username="coord_user", password=self.password)
+        for url in [reverse("prediction:map"), reverse("dashboard")]:
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "live-alert-toast-container")
+            self.assertContains(response, "/ws/alerts/")
+
+
+class AlertBroadcastWebSocketTests(TransactionTestCase):
+    async def test_alert_consumer_receives_incident_and_notice_broadcasts(self):
+        from asgiref.sync import sync_to_async
+        from channels.testing import WebsocketCommunicator
+        from crisisnet.asgi import application
+        from incidents.models import OperationalNotice
+
+        communicator = WebsocketCommunicator(application, "/ws/alerts/")
+        connected, _ = await communicator.connect()
+        self.assertTrue(connected)
+
+        try:
+            greeting = await communicator.receive_json_from(timeout=3)
+            self.assertEqual(greeting["event_type"], "connected")
+
+            # Creating an incident should trigger post_save -> broadcast_incident_alert
+            incident = await sync_to_async(Incident.objects.create)(
+                title="Padma Embankment Breach",
+                incident_type=Incident.IncidentType.FLOOD,
+                description="Riverbank overflow near Munshiganj.",
+                location="Munshiganj",
+                latitude=23.5422,
+                longitude=90.5305,
+                severity=Incident.Severity.HIGH,
+                status=Incident.Status.ACTIVE,
+            )
+            inc_msg = await communicator.receive_json_from(timeout=3)
+            self.assertEqual(inc_msg["event_type"], "incident_update")
+            self.assertEqual(inc_msg["id"], incident.id)
+            self.assertEqual(inc_msg["title"], "Padma Embankment Breach")
+            self.assertEqual(inc_msg["action"], "reported")
+
+            # Creating an operational notice should trigger post_save -> broadcast_operational_notice
+            user = await sync_to_async(User.objects.create_user)(
+                username="ws_coord",
+                password="Password123!",
+                role=User.Role.COORDINATOR,
+            )
+            notice = await sync_to_async(OperationalNotice.objects.create)(
+                title="Evacuation Route Open",
+                message="Use Highway N8 for Munshiganj relief convoy.",
+                priority=OperationalNotice.Priority.URGENT,
+                created_by=user,
+            )
+            notice_msg = await communicator.receive_json_from(timeout=3)
+            self.assertEqual(notice_msg["event_type"], "operational_notice")
+            self.assertEqual(notice_msg["id"], notice.id)
+            self.assertEqual(notice_msg["title"], "Evacuation Route Open")
+            self.assertEqual(notice_msg["priority"], "urgent")
+            self.assertEqual(notice_msg["author"], "ws_coord")
+        finally:
+            await communicator.disconnect()
 
